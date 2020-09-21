@@ -24,12 +24,11 @@ proc_fan: Error: Detailed error message
 where proc_fan is actually the name of the executable (argv[0]) that you are trying to execute.
 
 ## How to Run this code:
-1. In your command prompt type: make
-2. This will generate the executable files, see below steps
-3. Compile with make
+1. In your command prompt type: make; This will generate the executable files, see below steps
+2. Compile with make
 * $ make runsim testsim
    * gcc -ggdb -Wall runsim.c -o runsim
    * gcc -ggdb -Wall testsim.c -o testsim
 
-4. Execute
+3. Execute
  * $ ./runsim 2 < fast.data
