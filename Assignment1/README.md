@@ -1,4 +1,4 @@
-# Unix System Calls and Library Functions:
+## Assignment #1 Unix System Calls and Library Functions:
 
 The goal of this homework is to become familiar with the environment in hoare while practising system calls. I’ll like to see the use of perror and getopt in this submission.
 
@@ -23,4 +23,11 @@ proc_fan: Error: Detailed error message
 
 where proc_fan is actually the name of the executable (argv[0]) that you are trying to execute.
 
-## How to Run the code:
+## How to Run this code:
+1. Compile with make
+* $ make runsim testsim
+* gcc -ggdb -Wall runsim.c -o runsim
+* gcc -ggdb -Wall testsim.c -o testsim
+
+2. Execute
+ * $ ./runsim 2 < fast.data
