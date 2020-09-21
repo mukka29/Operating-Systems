@@ -2,23 +2,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int T = 0; //sleep time
-static int R = 0; //repeats
+static int T = 0; //sleep time variable
+static int R = 0; //repeats variable
 
 static int check_args(int argc, char * argv[]){
 
-  //if we don't have 2 arguments
+  //if we do not have 2 arguments
   if(argc != 3){
     fprintf(stderr, "Usage: testsim sleeptime repeats\n");
     return -1;  //error
   }
 
-  //if sleep time is invalid
+  //in case if sleep time is invalid
   if( (T = atoi(argv[1])) < 0){
     return -1;  //error
   }
 
-  //if repeat time is invalid
+  //in case if repeat time is invalid
   if( (R = atoi(argv[2])) < 0){
     return -1;  //error
   }
