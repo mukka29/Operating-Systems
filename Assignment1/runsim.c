@@ -1,12 +1,12 @@
-#include <stdio.h>    // for fgets
+#include <stdio.h>    // used for fgets
 #include <stdlib.h>
-#include <string.h>   //for strtok
+#include <string.h>   //used for strtok
 #include <sys/types.h>
 #include <sys/wait.h> //for wait()
-#include <unistd.h>   //for close, fork
+#include <unistd.h>   //used for close, fork
 
-static int n = 0; //process count
-static int N = 0; //processes limit
+static int n = 0; //process count variable
+static int N = 0; //processes limit variable
 
 static int check_args(int argc, char * argv[]){
 
@@ -33,7 +33,7 @@ static int spawn(char * line){
     toks[i] = strtok(NULL, " ");
   }
 
-  //create a child process
+  //creating a child process
   if(fork() == 0){
     close(0);
     close(1);
@@ -60,23 +60,23 @@ static int read_input(){
 
   while(1){
 
-    //if we have reached the process limit
+    //in case if we have reached the process limit
     if(n >= N){
       wait(&status);
       n--;
     }
 
-    //get input
+    //to get input
     if(fgets(line, sizeof(line), stdin) == NULL){
-      break;  //error or end of input
+      break;  //if error or end of input
     }
 
-    //run the process
+    //to run the process
     if(spawn(line) > 0){
-      n++;  //one more process
+      n++;  //for one more process
     }
 
-    //check if any process exited
+    //to check if any process is exited
     wait_all(WNOHANG);
   }
 
