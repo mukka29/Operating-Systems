@@ -25,8 +25,11 @@ where proc_fan is actually the name of the executable (argv[0]) that you are try
 
 ## Implementation
 * To implement this Assignment I have created files named: runsim.c and testsim.c along with these I have some files named: fast.data and testing.data
-* Here, runsim is used as proc_fan which fans-out/executes other things and data files are used for piping in to the CLI while executing the code.
+* Here, runsim is used as proc_fan/Name of the executable which fans-out/executes other things(files with .data in this case contain other programs that are to be fan out by runsim) and these data files are used for piping in to the CLI while executing the code.
 * Data files contain some other programs that runsim/proc_fan fans them out
+* Example data in .data files is:
+  * <ul>./testsim 5 10</ul>
+    <ul>./testsim 8 10</ul>
 
 ## How to Run this code:
 1. In your command prompt type: make; This will generate the executable files, see below steps
@@ -36,9 +39,9 @@ where proc_fan is actually the name of the executable (argv[0]) that you are try
    * gcc -ggdb -Wall testsim.c -o testsim
 
 3. Execute
- * $ ./runsim 2 < fast.data
- <ul>or</ul>
- * $ ./runsim 2 < testing.data
+ * <ul> $ ./runsim 2 < fast.data </ul>
+  <ul>or</ul>
+  <ul> $ ./runsim 2 < testing.data </ul>
 
 ## Version Control
 
