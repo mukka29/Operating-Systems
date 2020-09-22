@@ -30,7 +30,7 @@ where proc_fan is actually the name of the executable (argv[0]) that you are try
 * Example data in .data files is:
   * <ul>./testsim 5 10</ul>
     <ul>./testsim 8 10</ul>
-
+ * These above mentioned files(multiple _testsim_ s' in this case) will get fan out and testsim will print/display process IDs for each and every file that gets executed under this
 ## How to Run this code:
 1. In your command prompt type: make; This will generate the executable files, see below steps
 2. Compile with make
@@ -39,7 +39,7 @@ where proc_fan is actually the name of the executable (argv[0]) that you are try
    * gcc -ggdb -Wall testsim.c -o testsim
 
 3. Execute
- * <ul> $ ./runsim 2 < fast.data </ul>
+* <ul> $ ./runsim 2 < fast.data </ul>
   <ul>or</ul>
   <ul> $ ./runsim 2 < testing.data </ul>
 
