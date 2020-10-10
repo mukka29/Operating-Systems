@@ -42,7 +42,7 @@ static int attach_data(){
 	return 0;
 }
 
-//Set the word index option
+//Setting the word index option
 static int set_options(const int argc, char * const argv[]){
 	if(argc != 2){
 		fprintf(stderr, "Usage: palin <word index>\n");
@@ -58,19 +58,19 @@ static int set_options(const int argc, char * const argv[]){
 	return 0;
 }
 
-//Check if word is a palindrome
+//Checking if word is a palindrome
 static int palindrome_word(const char * myword){
 	int i;
 	const int len = strlen(myword) - 1;
 	const int middle = len / 2;
 
-	//compare the two halfs of string
+	//comparing the two halfs of string
 	for(i=0; i < middle; i++)
 		if(myword[i] != myword[len - i - 1]){
 			return 0;
 		}
 
-	return 1;	//word palindrome
+	return 1;	//if the word is palindrome
 }
 
 // sem_num - 0 is for palin.out, 1 is for nopalin.out
@@ -93,7 +93,7 @@ static int critical_lock(const int sem_num){
 	return 0;
 }
 
-//Unlock critical section
+//Unlocking the critical section
 static int critical_unlock(const int sem_num){
 	struct sembuf sop;
 
@@ -121,7 +121,7 @@ int main(const int argc, char * const argv[]){
 
 	srand(time(NULL));
 
-	//take pointer to our word
+	//taking pointer to our word
 	const char * myword = data->mylist[wi];
 	const int palindrome = palindrome_word(myword);
 	const int sem_num = (palindrome) ? 1 : 0;
