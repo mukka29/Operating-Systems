@@ -1,3 +1,4 @@
+//header files
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -18,14 +19,14 @@ struct option{
 };
 
 struct option started, running, runtime;  //-n, -s, -t options
-struct option exited, wi; //exited processes and word index
+struct option exited, wi; //exited processes and the word index
 
 static int mid=-1, sid = -1;
 static struct data *data = NULL;
 
 static int loop_flag = 1;
 
-//Send a signal to all running palin processes
+//Sending a signal to all running palin processes
 static int signal_running(){
 
   sigset_t mask;
@@ -38,25 +39,25 @@ static int signal_running(){
   sigemptyset (&mask);
 	sigaddset (&mask, SIGTERM);
 
-  //block SIGTERM in master
+  //blocking SIGTERM in master
 	if(sigprocmask(SIG_BLOCK, &mask, &orig_mask) < 0) {
 		perror ("sigprocmask");
 		return 1;
 	}
 
-  //send SIGTERM to all processes in our process group
+  //sending SIGTERM to all processes in our process group
   if(killpg(getpid(), SIGTERM) == -1){
     perror("killpg");
     return -1;
   }
 
-  //unblock SIGTERM in master
+  //unblocking SIGTERM in master
   if(sigprocmask(SIG_SETMASK, &orig_mask, NULL) < 0) {
 		perror ("sigprocmask");
 		return 1;
 	}
 
-  //wait for all processes
+  //waiting for all processes
   int i, status;
   for(i=0; i < running.val; ++i){
     wait(&status);
@@ -67,12 +68,12 @@ static int signal_running(){
 //Exit master cleanly
 void clean_exit(const int code){
 
-  //stop children
+  //stop the children
   signal_running();
 
   printf("[MASTER|%li:%i] Done (exit %d)\n", data->timer.tv_sec, data->timer.tv_usec, code);
 
-  //clean shared memory and semaphores
+  //clean the shared memory and semaphores
   shmctl(mid, IPC_RMID, NULL);
   semctl(sid, 0, IPC_RMID);
   shmdt(data);
@@ -92,7 +93,7 @@ static int spawn_palin(){
     char index[10];
     snprintf(index, 10, "%u", wi.val);
 
-    //set child process group, to be able to receive master signals
+    //set child process group, so to be able to receive signals form master
     setpgid(getpid(), getppid());
 
     execl("palin", "palin", index, NULL);
@@ -118,17 +119,17 @@ static void usage(){
   printf("\t-t x\t Maximum processes running at once, [1;20]\n");
 }
 
-//Insert words from input file to shared memory array
+//Insert words from input file in to shared memory array
 static int insert_words(const char * filename){
 
-  //open the input file
+  //opening the input file
   FILE * infile = fopen(filename, "r");
   if(infile == NULL){
     perror("fopen");
     return -1;
   }
 
-  //read each line to mylist[] array
+  //reading each line to mylist[] array
   int i = 0;
   while(fgets(data->mylist[i++], WORD_MAX, infile) != NULL){
     if(i > LIST_MAX){ //if we have filled array
@@ -165,7 +166,7 @@ static int set_options(const int argc, char * const argv[]){
 		}
 	}
 
-  //check the running value
+  //checking the running value
   if( (running.max <= 0) || (running.max > 20)   ){
     fprintf(stderr, "Error: -s invalid\n");
     return -1;
@@ -215,7 +216,7 @@ static int attach_data(){
 	}
   bzero(data, sizeof(struct data));
 
-  //set semaphores
+  //set the semaphores
   unsigned short vals[2] = {1,1};
   union semun un;
   un.array = vals;
@@ -233,7 +234,7 @@ static void reap_zombies(){
   pid_t pid;
   int status;
 
-  //while we have a process, that exited
+  //while we have a process, that is exited
   while((pid = waitpid(-1, &status, WNOHANG)) > 0){
 
     if (WIFEXITED(status)) {
@@ -282,7 +283,7 @@ int main(const int argc, char * const argv[]){
       clean_exit(EXIT_FAILURE);
   }
 
-  //our clock step
+  //this is the clock step
   timestep.tv_sec = 0;
   timestep.tv_usec = 1000;
 
@@ -299,7 +300,7 @@ int main(const int argc, char * const argv[]){
 
 	while(loop_flag && (started.val < started.max)){
 
-    //if we can, we start a new process
+    //if we can, we now start a new process
     if( (wi.val < wi.max) &&
         (started.val < started.max) &&
         (running.val < running.max)  ){
@@ -307,7 +308,7 @@ int main(const int argc, char * const argv[]){
         pid_t pid = spawn_palin();
     }
 
-    //clock moves forward
+    //clock keeps moving forward
     timeradd(&data->timer, &timestep, &temp);
     data->timer = temp;
 	}
