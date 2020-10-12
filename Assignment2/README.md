@@ -30,15 +30,16 @@ determine if the string is a palindrome;</ul>
 2. In addition, I expect your program to terminate after the specified amount of time (-t option) of real clock. This can be done using a timeout signal, at which point it should kill all currently running child processes and terminate. It should also catch the ctrl-c signal, free up shared memory and then terminate all children. No matter how it terminates, master should also output the value of the shared clock to the output file. For an example of a periodic timer interrupt, you can look at p318 in the text, in the program periodicasterik.c.
 
 ## Compilation Steps:
-Navigate to the directory "Assignment2" and issue the below commands
+Navigate to the directory "mukka.2/Assignment2" on hoare and issue the below commands
 <ul>$ gcc -Werror -ggdb master.c -o master</ul>
 <ul>$ gcc -Werror -ggdb palin.c -o palin</ul>
 
 ## Execution: 
 <ul>./master -n 10</ul>
+By changing the value in -n, number of words that this program can search can be increased.
 
 ## Checking the result:
-* Once the program is ececuted, required Executable files are generated. Along with them, two files called palin.out and nopalin.out will also be generated. The palin.out contains all the words that are palindromes and nopalin.out contains thw words which are not palindromes.
+* Once the program is ececuted, required Executable files are generated. Along with them, two files called palin.out and nopalin.out will also be generated. The palin.out contains all the words that are palindromes and nopalin.out contains the words which are not palindromes.
 * ls
 * this command shows all the files present in the directory after the assignment is executed
 
@@ -51,3 +52,10 @@ Navigate to the directory "Assignment2" and issue the below commands
 
 ## log File: output.log
 * After the execution, A logfile is generated showing the process logs with timeval
+
+## Palindromes file: palin.out
+After the execution, this file is generated which contains all the palindromes that are given through the file infile.txt(this file contains both palindromes and non-palindromes)
+
+## Non-Palindromes file:  nopalin.out
+After the execution, this file also gets generated which contains all the words which are not palindromes that are given through the file infile.txt (this file contains both palindromes and non-palindromes)
+
