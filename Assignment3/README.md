@@ -19,10 +19,10 @@ The increment per iteration of the critical section should be set high enough to
 
 The log file should look as follows:
 
-Master: Child pid xxx is terminating at system clock time xx.xx
-Master: Creating new child pid xxx at my time xx.xx
-Master: Child pid xxx is terminating at system clock time xx.xx
-Master: Creating new child pid xxx at my time xx.xx
+<ul>Master: Child pid xxx is terminating at system clock time xx.xx</ul>
+<ul>Master: Creating new child pid xxx at my time xx.xx</ul>
+<ul>Master: Child pid xxx is terminating at system clock time xx.xx</ul>
+<ul>Master: Creating new child pid xxx at my time xx.xx</ul>
 ...
 
 ## User Processes
@@ -32,19 +32,16 @@ The child processes of the oss are the user processes. These should be a separat
 Th child processes should start by reading our simulated system clock. It should then generate a random duration number from 1 to some maximum number of nanosecond constant (A reasonable value might be something like 1000000). This represents how long this child should run.
 
 It should then loop continually over a critical section of code. This critical section should be enforced through the user of message passing with msgsnd and msgrcv.
-The child process should loop over the critical section, checking the system clock and determining if it has exceeded
-its lifetime. If it has, it should check shmPID. If it is set to 0, the child process should put its PID there and then
-terminate. If it is non-zero, it should continue looping over the critical section until it can indicate to master that it
-wants to terminate.
-Your project should also have signal handling to terminate all processes if needed and clear up shared memory.
-In case of abnormal termination, make sure to remove any resources that are used. Make sure that your process
-automatically terminates itself with a timed interrupt.
-Your main executable should use command line arguments. You must implement at least the following command
-line arguments using "getopt":
 
--h
--c x
--l filename 
--t z
+The child process should loop over the critical section, checking the system clock and determining if it has exceeded its lifetime. If it has, it should check shmPID. If it is set to 0, the child process should put its PID there and then terminate. If it is non-zero, it should continue looping over the critical section until it can indicate to master that it wants to terminate.
+
+Your project should also have signal handling to terminate all processes if needed and clear up shared memory. In case of abnormal termination, make sure to remove any resources that are used. Make sure that your process automatically terminates itself with a timed interrupt.
+
+Your main executable should use command line arguments. You must implement at least the following command line arguments using "getopt":
+
+<ul>-h </ul>
+<ul>-c x </ul>
+<ul>-l filename </ul>
+<ul>-t z </ul>
 
 where x is the maximum number of child processes spawned (default 5) and filename is the log file used. The -t parameter determines the time in seconds when the master will terminate itself and all children (default 20).
