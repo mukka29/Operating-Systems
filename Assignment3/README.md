@@ -45,3 +45,26 @@ Your main executable should use command line arguments. You must implement at le
 <ul>-t z </ul>
 
 where x is the maximum number of child processes spawned (default 5) and filename is the log file used. The -t parameter determines the time in seconds when the master will terminate itself and all children (default 20).
+
+## Compilation Steps:
+Navigate to the directory "mukka.3/Assignment3" on hoare and issue the below commands
+Compiling with make 
+<ul>$ make</ul>
+<ul>OR</ul>
+<ul>$ gcc -Werror -ggdb master.c -o master</ul>
+<ul>$ gcc -Werror -ggdb palin.c -o palin</ul>
+
+## Execution: 
+<ul>$ ./master 2>users_log.txt/ul>
+* After this program execution (main executable here are 'oss.c' and 'user.c' files), two files executable files are generated - namely "oss" and "users", along with the log file. The output here in this case gets into the logfile, which contains the output in the required format.
+
+## Checking the result:
+* Once the program is ececuted, required Executable files are generated. Along with them, one file called log file will also be generated. 
+* ls
+* this command shows all the files present in the directory after the project is executed.
+
+## data.h File
+* This file contains the constants used in the project.
+
+## log File: output.log
+* After the execution, A logfile is generated, file contains the output in the required format
