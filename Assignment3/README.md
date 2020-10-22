@@ -56,15 +56,18 @@ Compiling with make
 
 ## Execution: 
 <ul>$ ./master 2>users_log.txt/ul>
-* After this program execution (main executable here are 'oss.c' and 'user.c' files), two files executable files are generated - namely "oss" and "users", along with the log file. The output here in this case gets into the logfile, which contains the output in the required format.
+* After this program execution (main executable here are 'oss.c' and 'user.c' files), two files executable files are generated - namely "oss" and "users", along with the log files. The output here in this case gets into the logfiles one for master and one for user processes, master contains the output in the required format and I have used other one for user processes.
 
+### Note: 
+  * log.txt is the actual required log file and users_log.txt is the log file for user processes.
+  * we can use ./master 2>/dev/null to disregard the error output (users output)
+  * 2 here is the file descriptor for stderr, It is used to mix the output of master with the output of users.
+  
 ## Checking the result:
-* Once the program is ececuted, required Executable files are generated. Along with them, one file called log file will also be generated. 
+* Once the program is ececuted, required Executable files are generated. Along with them, above mentioned log files also get generated. 
 * ls
 * this command shows all the files present in the directory after the project is executed.
+* cat log.txt, is used to view the contents of master log file
 
 ## data.h File
 * This file contains the constants used in the project.
-
-## log File: output.log
-* After the execution, A logfile is generated, file contains the output in the required format
