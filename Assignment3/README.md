@@ -78,3 +78,6 @@ Compiling with make
 * 	rm -f oss user
 This command is used to remove oss and user executable files
 * If log.txt and users_log.txt files also needs to be removed, 'rm -f log.txt users_log.txt' is used
+
+### Updated project info can always be found at
+* [My Project](https://github.com/mukka29/Operating-Systems)
