@@ -18,9 +18,10 @@ struct option{
   int val;  //the current value
   int max;  //and the maximum value
 };
+/*  Most of the code for this project is from project 2 i.e., Assignment 2 as per this repository */
 
 struct option started, running, runtime;  //-n, -s, -t options
-struct option exited; //processes which are exited
+struct option exited; //for the processes which are exited
 
 static int mid=-1, qid = -1;
 static struct data *data = NULL;
@@ -28,7 +29,7 @@ static struct data *data = NULL;
 static int loop_flag = 1;
 static struct timeval timestep, temp;
 
-//"signal_running" is used to send a signal to all running user processes
+//"signal_running" is used to send a signal to all currently running user processes
 static int signal_running(){
 
   sigset_t mask;
@@ -37,25 +38,25 @@ static int signal_running(){
   sigemptyset (&mask);
 	sigaddset (&mask, SIGTERM);
 
-  //block SIGTERM in master
+  //block SIGTERM in the master
 	if(sigprocmask(SIG_BLOCK, &mask, &orig_mask) < 0) {
 		perror ("sigprocmask");
 		return 1;
 	}
 
-  //send SIGTERM to all processes in our process group
+  //send the SIGTERM to all processes in the process group
   if(killpg(getpid(), SIGTERM) == -1){
     perror("killpg");
     return -1;
   }
 
-  //wait for all processes
+  //waiting for all processes
   /*int i, status;
   for(i=0; i < running.val; ++i){
     wait(&status);
   }*/
 
-  //unblock SIGTERM in master
+  //unblock the SIGTERM in master
   if(sigprocmask(SIG_SETMASK, &orig_mask, NULL) < 0) {
 		perror ("sigprocmask");
 		return 1;
@@ -64,7 +65,7 @@ static int signal_running(){
   return 0;
 }
 
-//Exit master cleanly
+//Exiting master cleanly
 static void clean_exit(const int code){
 
   //stop users
@@ -72,7 +73,7 @@ static void clean_exit(const int code){
 
   printf("[MASTER|%li:%i] Done (exit %d)\n", data->timer.tv_sec, data->timer.tv_usec, code);
 
-  //clean shared memory and semaphores
+  //clean shared memory and the semaphores
   shmctl(mid, IPC_RMID, NULL);
   msgctl(qid, 0, IPC_RMID);
   shmdt(data);
@@ -80,7 +81,7 @@ static void clean_exit(const int code){
 	exit(code);
 }
 
-//Spawn a user program
+//Spawnning  a user program
 static int spawn_user(){
 
 	pid_t pid = fork();
@@ -89,7 +90,7 @@ static int spawn_user(){
 
   }else if(pid == 0){
 
-    //set child process group, to be able to receive master signals
+    //set the child process group, to be able to receive signals from master
     setpgid(getpid(), getppid());
 
     execl("user", "user", NULL);
@@ -104,7 +105,7 @@ static int spawn_user(){
 	return pid;
 }
 
-//Show usage menu
+//this shows the usage menu in this project
 static void usage(){
   printf("Usage: master [-c 5] [-l log.txt] [-t 20]\n");
   printf("\t-h\t Show this message\n");
@@ -113,13 +114,13 @@ static void usage(){
   printf("\t-t 20\t Maximum runtime\n");
 }
 
-//Set options specified as program arguments
+//Set options specified as the program arguments
 static int set_options(const int argc, char * const argv[]){
 
-  //default options
-  started.val = 5; started.max = 100; //max users started
+  //these are the default options, used as in project 2
+  started.val = 5; started.max = 100; // for the maximum users started
   exited.val  = 0; exited.max = 100;
-  runtime.val = 0; runtime.max = 20;  //maximum runtime in real seconds
+  runtime.val = 0; runtime.max = 20;  //for the maximum runtime in real seconds
 
   int c, redir=0;
 	while((c = getopt(argc, argv, "hc:l:t:")) != -1){
@@ -145,7 +146,7 @@ static int set_options(const int argc, char * const argv[]){
   return 0;
 }
 
-//Attach the data in shared memory
+//Attaching the data in shared memory
 static int attach_data(){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -155,7 +156,7 @@ static int attach_data(){
 		return -1;
 	}
 
-  //create the shared memory area
+  //creating the shared memory area
   const int flags = IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR;
 	mid = shmget(k1, sizeof(struct data), flags);
   if(mid == -1){
@@ -163,21 +164,21 @@ static int attach_data(){
   	return -1;
   }
 
-  //create the message queue
+  //creating the message queue
 	qid = msgget(k2, flags);
   if(qid == -1){
   	perror("msgget");
   	return -1;
   }
 
-  //attach to the shared memory area
+  //attaching to the shared memory area
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
 		return -1;
 	}
 
-  //clear the memory
+  //clearing the memory
   bzero(data, sizeof(struct data));
 
 	return 0;
@@ -188,7 +189,7 @@ static void reap_zombies(){
   pid_t pid;
   int status;
 
-  //while we have a process, that exited
+  //while we have a process, that is exited
   while((pid = waitpid(-1, &status, WNOHANG)) > 0){
 
     if (WIFEXITED(status)) {
@@ -205,21 +206,21 @@ static void reap_zombies(){
   }
 }
 
-//Process signals sent to master
+//Process signals sent to the master
 static void sig_handler(const int signal){
 
   switch(signal){
-    case SIGINT:  //interrupt signal
+    case SIGINT:  //for the interrupt signal
       printf("[MASTER|%li:%i] Signal TERM received\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;  //stop master loop
       break;
 
-    case SIGALRM: //alarm - end of runtime
+    case SIGALRM: //creates an alarm - for end of runtime
       printf("[MASTER|%li:%i] Signal ALRM received\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;
       break;
 
-    case SIGCHLD: //user program exited
+    case SIGCHLD: // for user program exited
       reap_zombies();
       break;
 
@@ -228,32 +229,31 @@ static void sig_handler(const int signal){
   }
 }
 
-//Accept a single message and send reply to user who sent it
+//Accepting a single message and sending reply to user who sent it
 static int process_msg(){
   struct msgbuf mbuf;
   static int next_msg = MSG_ALL;
   int rv = 0;
 
-  //accept the message
+  //accepting the message who sent it
   if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, next_msg, 0) == -1){
 		perror("msgrcv");
 		return -1;
 	}
 
-  //check message type
+  //checking the message type
   switch(mbuf.mtype){
-    case MSG_ENTER:	//if a user enters the critical section
-      next_msg = MSG_LEAVE;		//read next message only from him
+    case MSG_ENTER:	//if any user enters the critical section
+      next_msg = MSG_LEAVE;	//reading next message only from him (the same sender)
       break;
 
-    case MSG_LEAVE:
-      //when a user leaves, critical section is open for everybody
-      next_msg = MSG_ALL;		   //read messages from everybody
+    case MSG_LEAVE:	//when a user leaves, the critical section is made open for everybody
+      next_msg = MSG_ALL;	//reading messages from everybody
       break;
 
-    case MSG_EXIT:  //a user program terminates
+    case MSG_EXIT:  //when a user program terminates
 
-      next_msg = MSG_ALL;		   //read messages from everybody
+      next_msg = MSG_ALL;	//again reading messages from everybody 
       printf("[MASTER] User %d exited at system time %ld.%d\n",
         data->user_pid, data->timer.tv_sec, data->timer.tv_usec);
       data->user_pid = 0;
@@ -261,26 +261,26 @@ static int process_msg(){
       if(started.val < started.max){
         spawn_user();
         ++started.val;
-      }else{  //we have generated all of the children
+      }else{  //Now we have generated all of the children
         rv = -1;
       }
       break;
 
-    default:  //unknown message
+    default:  //for any unknown message
       break;
   }
 
-  //clock moves forward
+  //clock keeps on moving forward
   timeradd(&data->timer, &timestep, &temp);
   data->timer = temp;
   if(data->timer.tv_sec >= 2){
-    printf("Master: Reach maximum of 2 simulated seconds\n");
+    printf("Master: Reach maximum of 2 simulated seconds\n");	//printing if maximum of 2 simulated seconds is reached
     rv = -1;
   }
 
-  //return message to sender
-	mbuf.mtype = mbuf.pid;  //user checks only messages with his PID
-	mbuf.pid   = getpid(); //set sender of message
+  //returning message to the sender
+	mbuf.mtype = mbuf.pid;  //user will check messages only with his PID
+	mbuf.pid   = getpid(); //set the sender of message
 	if(msgsnd(qid, &mbuf, MSGBUF_SIZE, 0) == -1){
 		perror("msgsnd");
 		return -1;
@@ -296,11 +296,11 @@ int main(const int argc, char * const argv[]){
       clean_exit(EXIT_FAILURE);
   }
 
-  //our clock step
+  //the clock step
   timestep.tv_sec = 0;
   timestep.tv_usec = 100;
 
-  //ignore signals to avoid interrupts in msgrcv
+  //ignore these signals to avoid interrupts in msgrcv (message receive)
   signal(SIGINT, SIG_IGN);
   signal(SIGTERM, SIG_IGN);
   signal(SIGCHLD, SIG_IGN);
@@ -308,7 +308,7 @@ int main(const int argc, char * const argv[]){
 
   alarm(runtime.max);
 
-  //start the first batch of users
+  //starting the first batch of users
   int i;
   for(i=started.val; i > 0 ; i--){
     spawn_user();
