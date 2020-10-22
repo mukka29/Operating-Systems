@@ -68,8 +68,13 @@ Compiling with make
 * Once the program is ececuted, required Executable files are generated. Along with them, above mentioned log files also get generated. 
 * ls
 * this command shows all the files present in the directory after the project is executed.
-* cat log.txt, is used to view the contents of master log file and
-* cat users_log.txt is used to view the contents of user processes log file
+* 'cat log.txt' is used to view the contents of master log file and
+* 'cat users_log.txt' is used to view the contents of user processes log file
 
 ## data.h File
 * This file contains the constants used in the project.
+
+## clean the executables:
+* 	rm -f oss user
+This command is used to remove oss and user executable files
+* If log.txt and users_log.txt files also needs to be removed, 'rm -f log.txt users_log.txt' is used
