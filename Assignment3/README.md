@@ -51,23 +51,25 @@ Navigate to the directory "mukka.3/Assignment3" on hoare and issue the below com
 Compiling with make 
 <ul>$ make</ul>
 <ul>OR</ul>
-<ul>$ gcc -Werror -ggdb master.c -o master</ul>
+<ul>$ gcc -Werror -ggdb oss.c -o oss</ul>
 <ul>$ gcc -Werror -ggdb palin.c -o palin</ul>
 
 ## Execution: 
-<ul>$ ./master 2>users_log.txt/ul>
-* After this program execution (main executable here are 'oss.c' and 'user.c' files), two files executable files are generated - namely "oss" and "users", along with the log files. The output here in this case gets into the logfiles one for master and one for user processes, master contains the output in the required format and I have used other one for user processes.
+<ul> $ ./oss 2>users_log.txt </ul>
+ 
+* After this program execution (main executable here are 'oss.c' and 'user.c' files), two  executable files are generated - namely "oss" and "users", along with the log files. The output here in this case gets into the logfiles one for master (log.txt) and one for user (users_log.txt) processes, master contains the output in the required format and I have used other one for user processes.
 
 ### Note: 
   * log.txt is the actual required log file and users_log.txt is the log file for user processes.
-  * we can use ./master 2>/dev/null to disregard the error output (users output)
+  * we can use ./oss 2>/dev/null to disregard the error output (users output)
   * 2 here is the file descriptor for stderr, It is used to mix the output of master with the output of users.
   
 ## Checking the result:
 * Once the program is ececuted, required Executable files are generated. Along with them, above mentioned log files also get generated. 
 * ls
 * this command shows all the files present in the directory after the project is executed.
-* cat log.txt, is used to view the contents of master log file
+* cat log.txt, is used to view the contents of master log file and
+* cat users_log.txt is used to view the contents of user processes log file
 
 ## data.h File
 * This file contains the constants used in the project.
