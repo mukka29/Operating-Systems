@@ -1,4 +1,3 @@
-//header files
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -21,7 +20,6 @@ struct option{
 
 /*  Most of the code for this project is from project 3 i.e., Assignment 3 as per this repository */
 
-
 struct option started, running, runtime;  //-n, -s, -t options
 struct option exited; //for the processes which are exited and for word index
 
@@ -35,7 +33,7 @@ static struct timeval timestep;
 //represents the Size of multi-level feedback queue.
 #define FB_SIZE 4
 
-static queue_t blocked, fb_ready[FB_SIZE]; //for blocked and feedback queue
+static queue_t blocked, fb_ready[FB_SIZE]; //for blocked and feedback queu
 static int fb_quant[FB_SIZE];              //represents the quantum for each ready queue
 
 enum sim_times {TS_IDLE, TS_TURN, TS_WAIT, TS_SLEEP, TS_COUNT};
@@ -47,7 +45,7 @@ static struct timeval timer_fork = {0,0}; //this tells when to fork next
 
 static unsigned int bitvector = 0; //represents bit vector for user[]
 
-/* Returning the bit value */
+// Returning the bit value
 static int check_bit(const int b){
   return ((bitvector & (1 << b)) >> b);
 }
@@ -96,7 +94,7 @@ static void clean_exit(const int code){
     }
   }
 
-  printf("Master:  Done (exit %d)at system time %ld:%i\n", code, data->timer.tv_sec, data->timer.tv_usec);
+  printf("Master:  Done (exit %d)at system time %lu:%li\n", code, data->timer.tv_sec, data->timer.tv_usec);
 
   q_deinit(&blocked);
   for(i=0; i < FB_SIZE; ++i){
@@ -142,9 +140,9 @@ static int spawn_user(){
     usr->t[T_FORKED] =  data->timer;
 
     if(q_enq(&fb_ready[0], id) < 0){
-      printf("OSS: Enqueue of process with PID %d failed at system time %ld:%i\n",  usr->pid, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Enqueue of process with PID %d failed at system time %lu:%li\n",  usr->pid, data->timer.tv_sec, data->timer.tv_usec);
     }else{
-      printf("OSS: Generating process with PID %u and putting it in queue 0 at system time %ld:%i\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Generating process with PID %u and putting it in queue 0 at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
     }
   }
 
@@ -241,9 +239,9 @@ static void reap_zombies(){
   while((pid = waitpid(-1, &status, WNOHANG)) > 0){
 
     if (WIFEXITED(status)) {
-      printf("Master: Child %i exited code %d at systm time %ld:%i\n", pid, WEXITSTATUS(status), data->timer.tv_sec, data->timer.tv_usec);
+      printf("Master: Child %i exited code %d at systm time %lu:%li\n", pid, WEXITSTATUS(status), data->timer.tv_sec, data->timer.tv_usec);
     }else if(WIFSIGNALED(status)){
-      printf("Master: Child %i signalled with %d at systm time %ld:%i\n", pid, WTERMSIG(status), data->timer.tv_sec, data->timer.tv_usec);
+      printf("Master: Child %i signalled with %d at systm time %lu:%li\n", pid, WTERMSIG(status), data->timer.tv_sec, data->timer.tv_usec);
     }
 
     --running.val;
@@ -254,17 +252,17 @@ static void reap_zombies(){
   }
 }
 
-//Process signals sent to the master
+//Process signals sent to master
 static void sig_handler(const int signal){
 
   switch(signal){
     case SIGINT:  //for the interrupt signal
-      printf("Master: Signal TERM receivedat system time %ld:%i\n", data->timer.tv_sec, data->timer.tv_usec);
+      printf("Master: Signal TERM receivedat system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;  //stop master loop
       break;
 
     case SIGALRM: //creates an alarm - for end of runtime
-      printf("Master:  Signal ALRM receivedat system time %ld:%i\n", data->timer.tv_sec, data->timer.tv_usec);
+      printf("Master:  Signal ALRM receivedat system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;
       break;
 
@@ -307,10 +305,10 @@ static int schedule_blocked(){
 
   //and then it goes to the first ready queue
   if(q_enq(&fb_ready[0], id) < 0){
-    fprintf(stderr, "OSS: Failed to enqueue process with PID %d at system time %ld:%i\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
+    fprintf(stderr, "OSS: Failed to enqueue process with PID %d at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
     return -1;
   }else{
-    printf("OSS: Unblocked process with PID %d to queue 0 at system time %ld:%i\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
+    printf("OSS: Unblocked process with PID %d to queue 0 at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
     return 0;
   }
 }
@@ -320,8 +318,8 @@ static void idle_mode_on(){
   if(idle_flag) //idle_flag is for showing if we are already in idle mode
     return;
 
-  printf("OSS: IDLE ON at system time %ld:%i\n", data->timer.tv_sec, data->timer.tv_usec);
-  timer_idle = data->timer; //saving the idle time stamp
+  printf("OSS: IDLE ON at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
+  timer_idle = data->timer; //saveing the idle time stamp
   idle_flag = 1;
 }
 
@@ -334,7 +332,7 @@ static void idle_mode_off(){
 
   timersub(&data->timer, &timer_idle, &tv);
 
-  printf("OSS: IDLE OFF (lasted %ld:%i) at system time %ld:%i\n", tv.tv_sec, tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
+  printf("OSS: IDLE OFF (lasted %lu:%li) at system time %lu:%li\n", tv.tv_sec, tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
   timerinc(&T[TS_IDLE], &tv);
   timerclear(&timer_idle);
   idle_flag = 0;
@@ -344,20 +342,19 @@ static void time_jump(){
 
   if(q_len(&blocked) == 0){ //no blocked processes
     //fork time jump
-    printf("OSS: Jump to fork timer %ld:%i at sysmte time %ld:%i\n", timer_fork.tv_sec, timer_fork.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
+    printf("OSS: Jump to fork timer %lu:%li at sysmte time %lu:%li\n", timer_fork.tv_sec, timer_fork.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
     data->timer = timer_fork;
 
   }else{
     //blocked time jump
     const int id = q_top(&blocked);
     struct user_pcb * usr = &data->users[id];
-    printf("OSS: No process ready. Setting time to first unblock %ld:%i at system time %ld:%i\n",
+    printf("OSS: No process ready. Setting time to first unblock %lu:%li at system time %lu:%li\n",
       usr->t[T_BLOCKED].tv_sec, usr->t[T_BLOCKED].tv_usec, data->timer.tv_sec, data->timer.tv_usec);
 
     data->timer = usr->t[T_BLOCKED];
   }
 }
-
 //dispatcher
 static int schedule_dispatch(const int q){
   struct msgbuf mbuf;
@@ -367,7 +364,7 @@ static int schedule_dispatch(const int q){
 
   struct user_pcb * usr = &data->users[id];
 
-  printf("OSS: Dispatching process with PID %u from queue %i at system time %ld:%i\n", usr->id, q, data->timer.tv_sec, data->timer.tv_usec);
+  printf("OSS: Dispatching process with PID %u from queue %i at system time %lu:%li\n", usr->id, q, data->timer.tv_sec, data->timer.tv_usec);
 
   mbuf.mtype = usr->pid;
   mbuf.exec_time.tv_sec = 0;
@@ -386,13 +383,13 @@ static int schedule_dispatch(const int q){
     case ST_TERM:
       timerinc(&usr->t[T_CPU], &usr->t[T_BURST]);
       timersub(&data->timer, &usr->t[T_FORKED], &usr->t[T_SYS]);
-      printf("OSS: Process with PID %u terminated at system time %ld:%i\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Process with PID %u terminated at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
 
       timerinc(&T[TS_TURN],    &usr->t[T_SYS]);
       timersub(&usr->t[T_SYS], &usr->t[T_CPU], &tv);
       timerinc(&T[TS_WAIT], &tv);
 
-      printf("OSS: Process with PID %u terminated, removed from queue %d at system time %ld:%i\n", usr->id, q, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Process with PID %u terminated, removed from queue %d at system time %lu:%li\n", usr->id, q, data->timer.tv_sec, data->timer.tv_usec);
 
       switch_bit(id);
       reap_zombies();
@@ -401,12 +398,12 @@ static int schedule_dispatch(const int q){
       break;
 
     case ST_BLOCKED:
-      printf("OSS: Process with PID %u has blocked on IO to %ld:%i at system time %ld:%i\n", usr->id, usr->t[T_BURST].tv_sec, usr->t[T_BURST].tv_usec, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Process with PID %u has blocked on IO to %lu:%li at system time %lu:%li\n", usr->id, usr->t[T_BURST].tv_sec, usr->t[T_BURST].tv_usec, data->timer.tv_sec, data->timer.tv_usec);
 
       timerinc(&usr->t[T_BLOCKED], &usr->t[T_BURST]);
       timerinc(&usr->t[T_BLOCKED], &data->timer);
 
-      printf("OSS: Putting process with PID %u into blocked queue at system time %ld:%i\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Putting process with PID %u into blocked queue at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
       q_enq(&blocked, id);
       break;
 
@@ -421,15 +418,15 @@ static int schedule_dispatch(const int q){
         }
       }else{
         nextq = q;
-        printf("OSS: not using its entire time quantum at system time %ld:%i\n", data->timer.tv_sec, data->timer.tv_usec);
+        printf("OSS: not using its entire time quantum at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       }
       usr->t[T_READY] = data->timer;
 
-      printf("OSS: Receiving that process with PID %u ran for %i nanoseconds at system time %ld:%i\n", usr->id, usr->t[T_BURST].tv_usec, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Receiving that process with PID %u ran for %li nanoseconds at system time %lu:%li\n", usr->id, usr->t[T_BURST].tv_usec, data->timer.tv_sec, data->timer.tv_usec);
       timerinc(&usr->t[T_CPU], &usr->t[T_BURST]);
       timerinc(&data->timer,   &usr->t[T_BURST]);
 
-      printf("OSS: Process with PID %u moved to queue %d at system time %ld:%i\n", usr->id, nextq, data->timer.tv_sec, data->timer.tv_usec);
+      printf("OSS: Process with PID %u moved to queue %d at system time %lu:%li\n", usr->id, nextq, data->timer.tv_sec, data->timer.tv_usec);
       q_enq(&fb_ready[nextq], id);
       break;
     default:
@@ -440,7 +437,7 @@ static int schedule_dispatch(const int q){
   //calculating dispatch time
   tv.tv_sec = 0; tv.tv_usec = rand() % 100;
   timerinc(&data->timer, &tv);
-  printf("OSS: total time this dispatching was %i nanoseconds at system time %ld:%i\n", tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
+  printf("OSS: total time this dispatching was %li nanoseconds at system time %lu:%li\n", tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
 
   return 0;
 }
@@ -464,10 +461,10 @@ static int schedule_ready(){
   if(i == FB_SIZE){ //all queues checked
     idle_mode_on();
     time_jump();
-    return -1;  //nobody is ready
+    return -1;  //nobody ready
   }else{
     //if we are in the idle mode
-    idle_mode_off();  //turn this mode off
+    idle_mode_off();  //turn it mode off
     //and dispatch one process from queue i
     if(schedule_dispatch(i) < 0){
 
@@ -488,7 +485,7 @@ int main(const int argc, char * const argv[]){
       clean_exit(EXIT_FAILURE);
   }
 
-  //this is our clock step of 100 ns
+  //this is the clock step of 100 ns
   timestep.tv_sec = 0;
   timestep.tv_usec = 100;
 
@@ -533,12 +530,13 @@ int main(const int argc, char * const argv[]){
   T[TS_TURN].tv_sec /= started.val; T[TS_TURN].tv_usec /= started.val;
   T[TS_WAIT].tv_sec /= started.val; T[TS_WAIT].tv_usec /= started.val;
   T[TS_SLEEP].tv_sec /= started.val; T[TS_SLEEP].tv_usec /= started.val;
+
   //printing each of the values of turnaround, wait, sleep and idle times at the end
-  printf("Time taken: %ld:%i\n", data->timer.tv_sec, data->timer.tv_usec);
-  printf("Turnaround Timer (average): %ld:%i\n",  T[TS_TURN].tv_sec,   T[TS_TURN].tv_usec);
-  printf("Wait Timer (average): %ld:%i\n",        T[TS_WAIT].tv_sec,   T[TS_WAIT].tv_usec);
-  printf("IO Timer (average): %ld:%i\n",          T[TS_SLEEP].tv_sec,  T[TS_SLEEP].tv_usec);
-  printf("CPU Idle Timer (total): %ld:%i\n",      T[TS_IDLE].tv_sec,   T[TS_IDLE].tv_usec);
+  printf("Time taken: %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
+  printf("Turnaround Timer (average): %lu:%li\n",  T[TS_TURN].tv_sec,   T[TS_TURN].tv_usec);
+  printf("Wait Timer (average): %lu:%li\n",        T[TS_WAIT].tv_sec,   T[TS_WAIT].tv_usec);
+  printf("IO Timer (average): %lu:%li\n",          T[TS_SLEEP].tv_sec,  T[TS_SLEEP].tv_usec);
+  printf("CPU Idle Timer (total): %lu:%li\n",      T[TS_IDLE].tv_sec,   T[TS_IDLE].tv_usec);
 
 	clean_exit(EXIT_SUCCESS);
 }
