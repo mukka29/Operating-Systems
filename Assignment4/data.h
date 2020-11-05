@@ -2,7 +2,7 @@
 
 #define RUNNING_MAX 18
 
-//Constants for our program
+//Constants for this program
 #define PATH_KEY "/"
 #define MSG_KEY 1111
 #define MEM_KEY 2222
@@ -20,7 +20,7 @@ struct user_pcb {
 };
 
 struct data {
-	struct timeval timer;	//time
+	struct timeval timer;	// represents the time
 	struct user_pcb users[RUNNING_MAX];
 };
 
@@ -33,14 +33,14 @@ struct data {
 #define SLICE_MIN 1
 #define SLICE_MAX 99
 
-//Message queue buffer
+//Buffer for Message queue
 struct msgbuf {
-	long mtype;//the type of message
-	int pid;//who is sending the message. Needed by master, to send reply
+	long mtype;	//the type of message
+	int pid;	//who is sending the message. Needed by master, to send reply
 
 	enum states exec_decision; //user decision
 	struct timeval exec_time;//decision execution time
 };
 
-//how big is our message ( without the mtype)
+//showing how big is the message ( without the mtype)
 #define MSGBUF_SIZE (sizeof(int) + sizeof(enum states) + sizeof(struct timeval))
