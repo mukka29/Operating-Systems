@@ -10,6 +10,7 @@
 enum states { ST_READY=1, ST_BLOCKED, ST_TERM, ST_COUNT};
 enum times { T_CPU=0, T_SYS, T_BURST, T_FORKED, T_BLOCKED, T_READY, T_COUNT};
 
+//for pcb
 struct user_pcb {
 	int	pid;
 	int id;
@@ -23,7 +24,7 @@ struct data {
 	struct user_pcb users[RUNNING_MAX];
 };
 
-//Probability in percent, for a user process to terminate
+//for a user process to terminate, this is the Probability in percent
 #define TERMINATE_PROBABILITY 15
 
 #define R_VAL 3
@@ -34,11 +35,11 @@ struct data {
 
 //Message queue buffer
 struct msgbuf {
-	long mtype;					//the type of message
-	int pid;						//who is sending the message. Needed by master, to send reply
+	long mtype;//the type of message
+	int pid;//who is sending the message. Needed by master, to send reply
 
-	enum states exec_decision;				//user decision
-	struct timeval exec_time;	//decision execution time
+	enum states exec_decision; //user decision
+	struct timeval exec_time;//decision execution time
 };
 
 //how big is our message ( without the mtype)
