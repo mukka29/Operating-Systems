@@ -1,16 +1,16 @@
 CC=gcc
 CFLAGS=-Werror -ggdb -Wall
 
-default: master user
+default: oss user
 
 queue.o: queue.c queue.h
 	$(CC) $(CFLAGS) -c queue.c
 
-master: master.c data.h queue.o
-	$(CC) $(CFLAGS) master.c queue.o -o master
+master: oss.c data.h queue.o
+	$(CC) $(CFLAGS) oss.c queue.o -o oss
 
 user: user.c data.h
 	$(CC) $(CFLAGS) user.c -o user
 
 clean:
-	rm -f master user queue.o
+	rm -f oss user queue.o
