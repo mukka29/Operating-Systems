@@ -1,3 +1,4 @@
+//header files
 #include <string.h>
 #include <sys/shm.h>
 #include <sys/msg.h>
@@ -8,12 +9,12 @@
 #include <unistd.h>
 #include <time.h>
 
-#include "data.h"
+#include "data.h" //the constants file
 
-static int mid=-1, qid = -1;	//memory and msg queue identifiers
-static struct data *data = NULL;	//shared memory pointer
+static int mid=-1, qid = -1;	//identifiers for memory and message queue
+static struct data *data = NULL;	//creating pointer for shared memory pointer
 
-//Attach the shared memory pointer
+//Attaching the shared memory pointer
 static int attach_data(){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -23,21 +24,21 @@ static int attach_data(){
 		return -1;
 	}
 
-	//get shared memory id
+	//to get shared memory id
 	mid = shmget(k1, 0, 0);
   if(mid == -1){
   	perror("shmget");
   	return -1;
   }
 
-	//get message queue ud
+	//to get message queue ud
 	qid = msgget(k2, 0);
   if(qid == -1){
   	perror("msgget");
   	return -1;
   }
 
-	//attach to the shared memory
+	//attaching to the shared memory
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
@@ -50,7 +51,7 @@ static void execute(const struct timeval slice, struct msgbuf *mbuf){
 
 	int decision = 0;
 	if((rand() % 100) >= TERMINATE_PROBABILITY){
-		//choose one of - use whole slice, use part of slice, or block
+		//choosing one of - use whole slice, use part of slice, or block
 		decision = rand() % 3;
 	}else{
 		//only on option - terminate
@@ -58,24 +59,24 @@ static void execute(const struct timeval slice, struct msgbuf *mbuf){
 	}
 
 	switch(decision){
-		case 0:		//use whole slice
+		case 0:		//using whole slice
 			mbuf->exec_decision = ST_READY;
 			mbuf->exec_time = slice;
 			break;
 
-		case 1:	//use part of slice
+		case 1:	//using part of slice
 			mbuf->exec_decision = ST_READY;
 			mbuf->exec_time.tv_sec  = 0;
 			mbuf->exec_time.tv_usec = (int)((float) slice.tv_usec / (100.0f / (SLICE_MIN + (rand() % SLICE_MAX))));
 			break;
 
-		case 2:	//block for io
+		case 2:	//to block for io
 			mbuf->exec_decision = ST_BLOCKED;
 			mbuf->exec_time.tv_sec = rand() % R_VAL;
 			mbuf->exec_time.tv_usec = rand() % S_VAL;
 			break;
 
-		case 3:	//terminate
+		case 3:	//to terminate
 			mbuf->exec_decision = ST_TERM;
 			mbuf->exec_time.tv_sec = 0;
 			mbuf->exec_time.tv_usec = 0;
@@ -96,7 +97,7 @@ int main(const int argc, char * const argv[]){
 	int stop = 0;
 	while(!stop){
 
-		//wait for slice from master
+		//waiting for slice from master
 		if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, getpid(), 0) == -1){
 			//perror("msgrcv");
 			break;
