@@ -7,12 +7,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "data.h"
+#include "data.h" // the constants file
 
-static int mid=-1, qid = -1;	//memory and msg queue identifiers
-static struct data *data = NULL;	//shared memory pointer
+static int mid=-1, qid = -1;	//identifiers for memory and the message queue
+static struct data *data = NULL; //creating pointer for shared memory 
 
-//Attach the shared memory pointer
+//Attaching the shared memory pointer
 static int attach_data(){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -36,7 +36,7 @@ static int attach_data(){
   	return -1;
   }
 
-	//attach to the shared memory
+	//attaching to the shared memory
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
@@ -45,14 +45,14 @@ static int attach_data(){
 	return 0;
 }
 
-//Lock the critical section
+//Locking the critical section
 static int critical_lock(){
-	struct msgbuf mbuf;	//message buffer
+	struct msgbuf mbuf;	//for message buffer
 
 	//fprintf(stderr, "[USER|%li:%i] %d LOCKING critical section\n",
 	//	data->timer.tv_sec, data->timer.tv_usec, getpid());
 
-	//request from master access to critical section.
+	//request from master to access to the critical section.
 	mbuf.mtype = MSG_ENTER;
 	mbuf.pid = getpid();
 	if(msgsnd(qid, &mbuf, MSGBUF_SIZE, 0) == -1){
@@ -60,7 +60,7 @@ static int critical_lock(){
 		return -1;
 	}
 
-	//It will block, until section is available
+	//It will block, until the section becomes available again
 	if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, mbuf.pid, 0) == -1){
 		perror("user:msgrcv");
 		return -1;
@@ -72,11 +72,11 @@ static int critical_lock(){
 	return 0;
 }
 
-//Unlock critical section
+//Unlocking the critical section
 static int critical_unlock(){
 	struct msgbuf mbuf;
 
-	//tell master we are leaving the critical section
+	//telling master that we are leaving the critical section
 	mbuf.mtype = MSG_LEAVE;
 	mbuf.pid = getpid();
 	if(msgsnd(qid, &mbuf, MSGBUF_SIZE, 0) == -1){
@@ -84,7 +84,7 @@ static int critical_unlock(){
 		return -1;
 	}
 
-	//wait for reply
+	//waiting for a reply
 	if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, mbuf.pid, 0) == -1){
 		perror("user:msgrcv");
 		return -1;
@@ -96,7 +96,7 @@ static int critical_unlock(){
 	return 0;
 }
 
-//Inform master we are terminating
+//Informing the master that we are terminating now
 static int critical_exit(){
 	struct msgbuf mbuf;
 
@@ -107,7 +107,7 @@ static int critical_exit(){
 		return -1;
 	}
 
-	//wait for reply
+	//again waiting for a reply
 	if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, mbuf.pid, 0) == -1){
 		perror("user:msgrcv");
 		return -1;
@@ -127,11 +127,11 @@ int main(const int argc, char * const argv[]){
 	srand(time(NULL));
 
 	struct timeval inc, end;
-	//determine how long we will run
+	//determine how long we will run it
 	inc.tv_sec = 0;
 	inc.tv_usec = rand() % 1000000;	//max is 1M usec
 
-	//copy shared timer to end and sub with increment
+	//copy shared timer to end and sub with an increment
 	critical_lock();
 	timeradd(&inc, &data->timer, &end);
 	critical_unlock();
@@ -150,7 +150,7 @@ int main(const int argc, char * const argv[]){
 			if(data->user_pid == 0){	//if pid is not set
 				data->user_pid = getpid();	//save our own pid
 				//fprintf(stderr, "[USER|%li:%i] User %d saved pid\n", data->timer.tv_sec, data->timer.tv_usec, getpid());
-				stop = 1;	//stop the master loop
+				stop = 1;	//stopping the master loop
 			}
 		}
 		if(critical_unlock() < 0){
