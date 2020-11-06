@@ -539,4 +539,5 @@ int main(const int argc, char * const argv[]){
   printf("CPU Idle Timer (total): %lu:%li\n",      T[TS_IDLE].tv_sec,   T[TS_IDLE].tv_usec);
 
 	clean_exit(EXIT_SUCCESS);
+return 0;
 }
