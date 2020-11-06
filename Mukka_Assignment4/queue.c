@@ -1,13 +1,14 @@
+//header files
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
 #include "queue.h"
 
-//Initialize an empty queue
+//Initializing an empty queue
 int q_init(queue_t * q, const int size){
-  //allocate space for the queue items
+  //allocating space for the queue items
   q->items = (int*) malloc(sizeof(int)*size);
-  if(q->items == NULL){ //if malloc failed
+  if(q->items == NULL){ //if memory allocation fails i.e, malloc fails
     perror("malloc");
     return -1;
   }
@@ -17,55 +18,55 @@ int q_init(queue_t * q, const int size){
   return 0;
 }
 
-//Deinitialize an empty queue
+//deinitilializing an empty queue and releasing the memory
 void q_deinit(queue_t * q){
-  free(q->items); //release the memory
+  free(q->items); //releasing  memory
   q->items = NULL;
   q->len = 0;
   q->size = 0;
 }
 
-//Add an item to queue
+// Adding an item to the queue
 int q_enq(queue_t * q, const int item){
-  if(q->len < q->size){ //if queue is not full
+  if(q->len < q->size){ //In case if queue is not full
     q->items[q->len++] = item;  //add the item
-    return 0; //return success
+    return 0; //and then return success
   }else{
     return -1;
   }
 }
 
-//Remove an item from position at
+// remove an item from a particular position at
 int q_deq(queue_t * q, const int at){
   int i;
 
-  //if position is after queue end
+//in case if the position is after queue end
   if(at >= q->len){
     return -1;
   }
 
   const int item = q->items[at];  //get the item
-  q->len = q->len - 1;  //reduce queue length
+  q->len = q->len - 1;  // decrease the queue length
 
-  //shift forward the items after dequeued item
+  //shifting forward the items after dequeued item
   for(i=at; i < q->len; ++i){
     q->items[i] = q->items[i + 1];
   }
-  q->items[i] = -1; //clear the position at which item was
+  q->items[i] = -1; //clearing the position
 
   return item;
 }
 
-//Return first item in queue
+//Returning the first item in queue
 int q_top(queue_t * q){
   if(q->len > 0){ //if we have items
-    return q->items[0]; //return first
+    return q->items[0]; //return the first one
   }else{
-    return -1;  //return error
+    return -1;  //else return error
   }
 }
 
-//Return length of queue
+//Return length of the queue
 int q_len(queue_t * q){
   return q->len;
 }
