@@ -70,11 +70,10 @@ Compiling with make
 * This file contains the constants used in the project.
 
 ## clean the executables:
-*  make clean
-<ul>or</ul>
-* 	rm -f oss user
-This command is used to remove oss and user executable files
-* If log.txt and users_log.txt files also need to be removed, 'rm -f log.txt users_log.txt' is used
+* $ make clean
+ <ul>or</ul>
+ 
+ * "$ rm -f oss user" This command is used to remove oss and user executable files, If log.txt and users_log.txt files also need to be removed, '$ rm -f log.txt users_log.txt' is used
 
 ### Updated project info can always be found at
 * [My Project](https://github.com/mukka29/Operating-Systems)
