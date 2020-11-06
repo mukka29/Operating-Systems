@@ -1,3 +1,4 @@
+//header files
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
@@ -14,12 +15,15 @@
 #include "queue.h"
 
 struct option{
-  int val;  //current value
-  int max;  //maximum value
+  int val;  //the current value
+  int max;  //and the maximum value
 };
 
+/*  Most of the code for this project is from project 3 i.e., Assignment 3 as per this repository */
+
 struct option started, running, runtime;  //-n, -s, -t options
-struct option exited; //exited processes and word index
+struct option exited; //for the processes which are exited and for word index
+
 
 static int mid=-1, qid = -1;
 static struct data *data = NULL;
@@ -28,32 +32,33 @@ static int loop_flag = 1;
 static struct timeval timestep;
 
 #define QUANTUM 10000000
-//Size of the multi-level feedback queue
+//represents the Size of multi-level feedback queue.
 #define FB_SIZE 4
 
-static queue_t blocked, fb_ready[FB_SIZE]; //blocked and feedback queu
-static int fb_quant[FB_SIZE];              //quantum for each ready queue
+static queue_t blocked, fb_ready[FB_SIZE]; //for blocked and feedback queu
+static int fb_quant[FB_SIZE];              //represents the quantum for each ready queue
 
 enum sim_times {TS_IDLE, TS_TURN, TS_WAIT, TS_SLEEP, TS_COUNT};
 static struct timeval T[TS_COUNT];
 
-static int idle_flag = 0; //CPU flag showing if CPU is idle
-static struct timeval timer_idle = {0,0}; //to save duration of each idle period
-static struct timeval timer_fork = {0,0}; //tells when to fork next
+static int idle_flag = 0; //here, CPU flag showing if CPU is idle
+static struct timeval timer_idle = {0,0}; //to save the duration of each idle period
+static struct timeval timer_fork = {0,0}; //this tells when to fork next
 
-static unsigned int bitvector = 0; //bit vector for user[]
+//represents bit vector for user[]
+static unsigned int bitvector = 0; 
 
-/* Return bit value */
+// Returning bit value
 static int check_bit(const int b){
   return ((bitvector & (1 << b)) >> b);
 }
 
-/* Switch bit value */
+// Switching the bit value
 static void switch_bit(const int b){
   bitvector ^= (1 << b);
 }
 
-/* Find unset bit */
+// Finding the unset bit
 static int find_bit(){
   int i;
   for(i=0; i < RUNNING_MAX; i++){
@@ -64,7 +69,7 @@ static int find_bit(){
   return -1;
 }
 
-/* Increment a timer */
+// Incrementing the timer
 static void timerinc(struct timeval *a, struct timeval * inc){
   struct timeval res;
   timeradd(a, inc, &res);
@@ -94,14 +99,14 @@ static void reap_zombies(){
   }
 }
 
-//Exit master cleanly
+//Exiting master cleanly
 static void clean_exit(const int code){
   int i;
   struct msgbuf mbuf;
 
   if(data){
     sigset_t mask, oldmask;
-    //empty slice
+    //for empty slice
     mbuf.exec_time.tv_sec = 0;
     mbuf.exec_time.tv_usec = 0;
 
@@ -109,7 +114,7 @@ static void clean_exit(const int code){
   	sigaddset(&mask, SIGCHLD);
     sigprocmask(SIG_BLOCK, &mask, &oldmask);
 
-    //send empty slice to all running processes to terminate
+    //sending empty slice to all running processes for termination
     for(i=0; i < RUNNING_MAX; i++){
       if(data->users[i].pid > 0){
         mbuf.mtype = data->users[i].pid;
@@ -134,7 +139,7 @@ static void clean_exit(const int code){
     q_deinit(&fb_ready[i]);
   }
 
-  //clean shared memory and semaphores
+  //cleaning shared memory and the semaphores
   shmctl(mid, IPC_RMID, NULL);
   msgctl(qid, 0, IPC_RMID);
   shmdt(data);
@@ -184,7 +189,7 @@ static int spawn_user(){
 	return pid;
 }
 
-//Show usage menu
+//this shows the usage menu in this project
 static void usage(){
   printf("Usage: master [-c 5] [-l log.txt] [-t 20]\n");
   printf("\t-h\t Show this message\n");
@@ -196,7 +201,7 @@ static void usage(){
 //Set options specified as program arguments
 static int set_options(const int argc, char * const argv[]){
 
-  //default options
+  //these are the default options used as in Project 2 and proejct 3
   started.val = 0; started.max = 100; //max users started
   exited.val  = 0; exited.max = 100;
   runtime.val = 0; runtime.max = 3;  //maximum runtime in real seconds
@@ -227,7 +232,7 @@ static int set_options(const int argc, char * const argv[]){
   return 0;
 }
 
-//Attach the data in shared memory
+//Attaching the data in shared memory
 static int attach_data(){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -245,21 +250,21 @@ static int attach_data(){
   	return -1;
   }
 
-  //create the message queue
+  //creating the message queue
 	qid = msgget(k2, flags);
   if(qid == -1){
   	perror("msgget");
   	return -1;
   }
 
-  //attach to the shared memory area
+  //attaching to the shared memory area
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
 		return -1;
 	}
 
-  //clear the memory
+  //clearing the memory
   bzero(data, sizeof(struct data));
 
 	return 0;
@@ -269,17 +274,17 @@ static int attach_data(){
 static void sig_handler(const int signal){
 
   switch(signal){
-    case SIGINT:  //interrupt signal
+    case SIGINT:  //for interrupt signal
       printf("Master: Signal TERM receivedat system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;  //stop master loop
       break;
 
-    case SIGALRM: //alarm - end of runtime
+    case SIGALRM: //creates an alarm - for end of runtime
       printf("Master:  Signal ALRM received at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;
       break;
 
-    case SIGCHLD: //user program exited
+    case SIGCHLD: //for user program exited
       reap_zombies();
       break;
 
@@ -305,18 +310,18 @@ static int schedule_blocked(){
   const int id = q_deq(&blocked, i);
   struct user_pcb * usr = &data->users[id];
 
-  //update global timer for slepp time
+  //updating global timer for slepp time
   timerinc(&T[TS_SLEEP], &usr->t[T_BURST]);
 
-  //process becomes ready
+  //when process becomes ready
   usr->state = ST_READY;
-  //clear timer for IO and burst
+  //clearing timer for IO and burst
   timerclear(&usr->t[T_BLOCKED]);
   timerclear(&usr->t[T_BURST]);
-  //save the time process became ready
+  //saving the time process became ready
   usr->t[T_READY] = data->timer;
 
-  //and goes to first ready queue
+  //and then it goes to the first ready queue
   if(q_enq(&fb_ready[0], id) < 0){
     fprintf(stderr, "OSS: Failed to enqueue process with PID %d at system time %lu:%li\n", usr->id, data->timer.tv_sec, data->timer.tv_usec);
     return -1;
@@ -326,17 +331,17 @@ static int schedule_blocked(){
   }
 }
 
-//Put CPU in idle mode
+//Puts CPU in the idle mode
 static void idle_mode_on(){
-  if(idle_flag) //if we are already in idle mode
+  if(idle_flag) //idle_flag is for showing if we are already in idle mode
     return;
 
   printf("OSS: IDLE ON at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
-  timer_idle = data->timer; //save idle time stamp
+  timer_idle = data->timer; //saving the idle time stamp
   idle_flag = 1;
 }
 
-//Remove idle CPU mode
+//Removing idle CPU mode
 static void idle_mode_off(){
   struct timeval tv;
 
@@ -369,7 +374,9 @@ static void time_jump(){
   }
 }
 
+//for schedular dispatching
 static int schedule_dispatch(const int q){
+//message buffer and time value
   struct msgbuf mbuf;
   struct timeval tv;
   const int id = q_deq(&fb_ready[q], 0);
@@ -430,7 +437,7 @@ static int schedule_dispatch(const int q){
     case ST_READY:
 
       if(mbuf.exec_time.tv_usec == fb_quant[q]){  //if not preepted
-        //change to next queue
+        //changing to next queue
         if(q < (FB_SIZE - 1)){
           nextq = q + 1;
         }else{
@@ -454,7 +461,7 @@ static int schedule_dispatch(const int q){
       break;
   }
 
-  //calculate dispatch time
+  //calculating dispatch time
   tv.tv_sec = 0; tv.tv_usec = rand() % 100;
   timerinc(&data->timer, &tv);
   printf("OSS: total time this dispatching was %li nanoseconds at system time %lu:%li\n", tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
@@ -465,7 +472,7 @@ static int schedule_dispatch(const int q){
 static int schedule_ready(){
 
   int i;
-  //find next ready queue, that has a process
+  //finding the next ready queue, that has a process
   for(i=0; i < FB_SIZE; ++i){
 
     const int id = q_top(&fb_ready[i]);
@@ -484,7 +491,7 @@ static int schedule_ready(){
     return -1;  //nobody ready
   }else{
     //if we are in idle mode
-    idle_mode_off();  //turn it off
+    idle_mode_off();  //turn this mode off
     //and dispatch one process from queue i
     if(schedule_dispatch(i) < 0){
 
@@ -497,19 +504,19 @@ static int schedule_ready(){
 int main(const int argc, char * const argv[]){
 
   int i;
-  const int maxTimeBetweenNewProcsSecs = 1;
-  const int maxTimeBetweenNewProcsNS = 500000;
+  const int maxTimeBetweenNewProcsSecs = 1; //maxTimeBetweenNewProcsSecs
+  const int maxTimeBetweenNewProcsNS = 500000; //maxTimeBetweenNewProcsNS
 
   if( (attach_data() < 0)||
       (set_options(argc, argv) < 0)){
       clean_exit(EXIT_FAILURE);
   }
 
-  //our clock step of 100 ns
+  //this is the clock step of 100 ns
   timestep.tv_sec = 0;
   timestep.tv_usec = 100;
 
-  //ignore signals to avoid interrupts in msgrcv
+  //ignoring the signals to avoid interrupts in msgrcv
   signal(SIGINT,  sig_handler);
   signal(SIGTERM, sig_handler);
   signal(SIGCHLD, sig_handler);
@@ -517,7 +524,7 @@ int main(const int argc, char * const argv[]){
 
   alarm(runtime.max);
 
-  //initialize the queues
+  //initializing the queues
   int quant = QUANTUM;
   q_init(&blocked, started.max);
   for(i=0; i < FB_SIZE; i++, quant *= 2){
@@ -527,17 +534,17 @@ int main(const int argc, char * const argv[]){
 
 	while(loop_flag){
 
-    //clock moves forward
+    //clock keeps on moving forward
     timerinc(&data->timer, &timestep);
     if(timercmp(&data->timer, &timer_fork, >=) != 0){
 
       if(started.val < started.max){
         spawn_user();
-      }else{  //we have generated all of the children
+      }else{  //if we have generated all of the children at this stage
         break;
       }
 
-      //set next fork time
+      //setting the next fork time
       timer_fork.tv_sec  = data->timer.tv_sec + (rand() % maxTimeBetweenNewProcsSecs);
       timer_fork.tv_usec = data->timer.tv_usec + (rand() % maxTimeBetweenNewProcsNS);
     }
@@ -546,11 +553,12 @@ int main(const int argc, char * const argv[]){
     schedule_ready();
 	}
 
-  //average the turnaround, wait and sleep times
+  //averaging the turnaround, wait and sleep times
   T[TS_TURN].tv_sec /= started.val; T[TS_TURN].tv_usec /= started.val;
   T[TS_WAIT].tv_sec /= started.val; T[TS_WAIT].tv_usec /= started.val;
   T[TS_SLEEP].tv_sec /= started.val; T[TS_SLEEP].tv_usec /= started.val;
 
+//printing each of the values of turnaround, wait, sleep and idle times at the end
   printf("Time taken: %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
   printf("Turnaround Timer (average): %lu:%li\n",  T[TS_TURN].tv_sec,   T[TS_TURN].tv_usec);
   printf("Wait Timer (average): %lu:%li\n",        T[TS_WAIT].tv_sec,   T[TS_WAIT].tv_usec);
