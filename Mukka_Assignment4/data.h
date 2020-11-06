@@ -2,7 +2,7 @@
 
 #define RUNNING_MAX 18
 
-//Constants for our program
+//Constants for this program
 #define PATH_KEY "/"
 #define MSG_KEY 1111
 #define MEM_KEY 2222
@@ -10,6 +10,7 @@
 enum states { ST_READY=1, ST_BLOCKED, ST_TERM, ST_COUNT};
 enum times { T_CPU=0, T_SYS, T_BURST, T_FORKED, T_BLOCKED, T_READY, T_COUNT};
 
+//for pcb
 struct user_pcb {
 	int	pid;
 	int id;
@@ -23,7 +24,7 @@ struct data {
 	struct user_pcb users[RUNNING_MAX];
 };
 
-//Probability in percent, for a user process to terminate
+//for a user process to terminate, this is the Probability in percent
 #define TERMINATE_PROBABILITY 15
 
 #define R_VAL 3
@@ -32,14 +33,14 @@ struct data {
 #define SLICE_MIN 1
 #define SLICE_MAX 99
 
-//Message queue buffer
+//Buffer for Message queue
 struct msgbuf {
-	long mtype;					//the type of message
-	int pid;						//who is sending the message. Needed by master, to send reply
+	long mtype; //the type of message
+	int pid; //who is sending the message. Needed by master, to send reply
 
-	enum states exec_decision;				//user decision
-	struct timeval exec_time;	//decision execution time
+	enum states exec_decision; //user decision
+	struct timeval exec_time; //decision execution time
 };
 
-//how big is our message ( without the mtype)
+//showing how big is the message ( without the mtype)
 #define MSGBUF_SIZE (sizeof(int) + sizeof(enum states) + sizeof(struct timeval))
