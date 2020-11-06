@@ -47,7 +47,7 @@ Your main executable should use command line arguments. You must implement at le
 where x is the maximum number of child processes spawned (default 5) and filename is the log file used. The -t parameter determines the time in seconds when the master will terminate itself and all children (default 20).
 
 ## Compilation Steps:
-Navigate to the directory "mukka.3/Assignment3" on hoare and issue the below commands
+Navigate to the directory "mukka_updated.3/Assignment3_version2" on hoare and issue the below commands
 Compiling with make 
 <ul>$ make</ul>
 <ul>OR</ul>
@@ -70,9 +70,11 @@ Compiling with make
 * This file contains the constants used in the project.
 
 ## clean the executables:
+*  make clean
+<ul>or</ul>
 * 	rm -f oss user
 This command is used to remove oss and user executable files
-* If log.txt file also needs to be removed, 'rm -f log.txt' is used
+* If log.txt and users_log.txt files also need to be removed, 'rm -f log.txt users_log.txt' is used
 
 ### Updated project info can always be found at
 * [My Project](https://github.com/mukka29/Operating-Systems)
