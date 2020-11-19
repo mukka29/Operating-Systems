@@ -1,8 +1,8 @@
+//header files
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include <signal.h>
-#include <errno.h>
 #include <stdio.h>
 #include <sys/shm.h>
 #include <sys/msg.h>
@@ -12,12 +12,15 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/time.h>
+#include <errno.h>
 
 #include "queue.h"
 
+/*  Most of the code for this project is from project 3 and 4 i.e., Assignment 3 and 4 as per this repository */
+
 struct option{
-  int val;  //current value
-  int max;  //maximum value
+  int val;  //the current value
+  int max;  //and the maximum value
 };
 
 struct rstat{
@@ -29,7 +32,7 @@ struct rstat{
 } rstat;
 
 struct option started, running, runtime;  //-n, -s, -t options
-struct option exited; //exited processes and word index
+struct option exited;	//for the processes which are exited and for word index
 static int verbose = 0;
 
 static int mid=-1, qid = -1, sid = -1;
@@ -38,9 +41,10 @@ static struct data *data = NULL;
 static int loop_flag = 1;
 static struct timeval timestep;
 
-static queue_t blocked; //blocked queue
+static queue_t blocked; //for the blocked queue
 
-static unsigned int bitvector = 0; //bit vector for user[]
+//represents the bit vector for user[]
+static unsigned int bitvector = 0; 
 
 static int critical_lock(){
 	struct sembuf sop;
@@ -62,7 +66,7 @@ static int critical_lock(){
 	return 0;
 }
 
-//Unlock critical section
+//Unlocking the critical section
 static int critical_unlock(){
 	struct sembuf sop;
 	sop.sem_num = 0;
@@ -75,17 +79,17 @@ static int critical_unlock(){
 	return 0;
 }
 
-/* Return bit value */
+// Returning bit value
 static int check_bit(const int b){
   return ((bitvector & (1 << b)) >> b);
 }
 
-/* Switch bit value */
+// Switching bit value
 static void switch_bit(const int b){
   bitvector ^= (1 << b);
 }
 
-/* Find unset bit */
+// Finding the unset bit
 static int find_bit(){
   int i;
   for(i=0; i < RUNNING_MAX; i++){
@@ -96,7 +100,7 @@ static int find_bit(){
   return -1;
 }
 
-/* Increment a timer */
+// Incrementing the timer
 static void timerinc(struct timeval *a, struct timeval * inc){
   struct timeval res;
   critical_lock();
@@ -138,7 +142,7 @@ static void reap_zombies(){
   }
 }
 
-//Exit master cleanly
+//Exiting master cleanly
 static void clean_exit(const int code){
 
   if(data){
@@ -150,9 +154,9 @@ static void clean_exit(const int code){
   	sigaddset(&mask, SIGCHLD);
     sigprocmask(SIG_BLOCK, &mask, &oldmask);
 
-    //send empty slice to all running processes to terminate
+//sending empty slice to all running processes for termination
     while(running.val > 0){
-      //some user may be waiting on timer
+//some user may be waiting on timer
       data->timer.tv_sec++;
 
       for(i=0; i < RUNNING_MAX; i++){
@@ -172,7 +176,7 @@ static void clean_exit(const int code){
         critical_unlock();
       }
       reap_zombies();
-      //    fprintf(stderr, "%d left\n", running.val);
+      //  fprintf(stderr, "%d left\n", running.val);
     }
     sigprocmask(SIG_SETMASK, &oldmask, NULL);
   }
@@ -181,7 +185,7 @@ static void clean_exit(const int code){
 
   q_deinit(&blocked);
 
-  //clean shared memory and semaphores
+  //cleaning shared memory and the semaphores
   shmctl(mid, IPC_RMID, NULL);
   msgctl(qid, 0, IPC_RMID);
   semctl(sid, 0, IPC_RMID);
@@ -227,7 +231,7 @@ static int spawn_user(){
 	return pid;
 }
 
-//Show usage menu
+//this shows the usage menu in this project
 static void usage(){
   printf("Usage: master [-v] [-c 5] [-l log.txt] [-t 20]\n");
   printf("\t-h\t Show this message\n");
@@ -239,7 +243,7 @@ static void usage(){
 //Set options specified as program arguments
 static int set_options(const int argc, char * const argv[]){
 
-  //default options
+  //these are the default options used as in the previous Projects
   started.val = 0; started.max = 40; //max users started
   exited.val  = 0; exited.max = 40;
   runtime.val = 0; runtime.max = 5;  //maximum runtime in real seconds
@@ -271,7 +275,7 @@ static int set_options(const int argc, char * const argv[]){
   return 0;
 }
 
-//Attach the data in shared memory
+//Attaching the data in shared memory
 static int attach_data(){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -282,7 +286,7 @@ static int attach_data(){
 		return -1;
 	}
 
-  //create the shared memory area
+  //creating the shared memory area
   const int flags = IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR;
 	mid = shmget(k1, sizeof(struct data), flags);
   if(mid == -1){
@@ -290,7 +294,7 @@ static int attach_data(){
   	return -1;
   }
 
-  //create the message queue
+  //creating the message queue
 	qid = msgget(k2, flags);
   if(qid == -1){
   	perror("msgget");
@@ -303,17 +307,17 @@ static int attach_data(){
   	return -1;
   }
 
-  //attach to the shared memory area
+  //attaching to the shared memory area
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
 		return -1;
 	}
 
-  //clear the memory
+  //clearing the memory
   bzero(data, sizeof(struct data));
 
-  //set semaphores
+  //setting semaphores
   unsigned short val = 1;
 	if(semctl(sid, 0, SETVAL, val) ==-1){
 		perror("semctl");
@@ -327,17 +331,17 @@ static int attach_data(){
 static void sig_handler(const int signal){
 
   switch(signal){
-    case SIGINT:  //interrupt signal
+    case SIGINT:  //for interrupt signal
       printf("Master: Signal TERM receivedat system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;  //stop master loop
       break;
 
-    case SIGALRM: //alarm - end of runtime
+    case SIGALRM: //creates an alarm - for end of runtime
       printf("Master:  Signal ALRM received at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
       loop_flag = 0;
       break;
 
-    case SIGCHLD: //user program exited
+    case SIGCHLD: //for user program exited
       reap_zombies();
       break;
 
@@ -366,7 +370,7 @@ static int schedule_blocked(){
     //if all users are in the blocked queue
     if((blocked.len > 0) && (blocked.len == running.val)){
       //they are stuck, and we have to remove one to unblock them
-      i = 0;  //remove the first one
+      i = 0;  //and remove the first one
       state = DENIED;
     }else{
       return 0; //nobody to unblock
@@ -376,9 +380,9 @@ static int schedule_blocked(){
   const int id = q_deq(&blocked, i);
   struct user_pcb * usr = &data->users[id];
 
-  //process becomes ready
+  //when process becomes ready
   usr->state = ST_READY;
-  usr->request.state = state;  //change request state to precess
+  usr->request.state = state;  //change request state to process
 
   if(state == DENIED){
     rstat.num_deny++;
@@ -392,7 +396,7 @@ static int schedule_blocked(){
       usr->id, usr->request.id, usr->request.val, data->timer.tv_sec, data->timer.tv_usec);
   }
 
-  //unblock the user
+  //unblocking the user
   mbuf.mtype = usr->pid;  //set its pid as type
   mbuf.user_id = usr->id;
   if(msgsnd(qid, (void*)&mbuf, MSGBUF_SIZE, 0) == -1){
@@ -457,12 +461,12 @@ static int deadlock_check(void){
         continue;
       }
 
-      //check if the claim left, can be satisfied
+      //check if the claim left, can be satisfied or not
       int claim_ok = 1;
       for(j=0; j < RCOUNT; j++){
-        //if availabel is less than claim
+        //if availabel is less than the claim
     		if(data->R[j].available < (usr->r[j].total - usr->r[j].available)){
-          claim_ok = 0; //claim is not satisfied
+          claim_ok = 0; //then the claim is not satisfied
         }
       }
 
@@ -482,7 +486,7 @@ static int deadlock_check(void){
 	}
   critical_unlock();
 
-  /* return index of first user in deadlock, if any */
+  // return index of first user in deadlock, if any
 	return all_finished(finished);
 }
 
@@ -510,11 +514,11 @@ static int schedule_dispatch(){
 
   //process the request
   int reply = 0;
-  if(usr->request.val < 0){//if user wants to release
+  if(usr->request.val < 0){//incase if user wants to release
 
-    usr->request.state = ACCEPTED;  //request is accepted
+    usr->request.state = ACCEPTED;  //the request is accepted
     reply = 1;
-    //return resource to system
+    //and return resource to system
     data->R[usr->request.id].available += -1*usr->request.val;
 
     printf("OSS: Acknowledged process with PID %u freed R%d=%d at system time %lu:%li\n",
@@ -527,7 +531,7 @@ static int schedule_dispatch(){
     usr->request.state = ACCEPTED;  //request is accepted
     reply = 1;
 
-    //return all user resources to system
+    //returning all user resources to system
     printf("OSS: Acknowledged process with PID %u freeing resouces: ", usr->id);
     int i;
     for(i=0; i < RCOUNT; i++){
