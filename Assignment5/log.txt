@@ -1,0 +1,532 @@
+OSS: 4/20 resources will be shared
+OSS: Generating process with PID 0 at system time 0:100
+OSS: Generating process with PID 1 at system time 0:2700
+OSS: Generating process with PID 2 at system time 0:3500
+OSS: Acknowledged process with PID 0 is making a request for R1 at system time 0:3500
+OSS: Running deadlock avoidance at system time 0:3500
+	Safe state after accepting request found
+	OSS granting R1=1 to P0 at time 0:3500
+OSS: total time this dispatching was 23 nanoseconds at system time 0:3523
+Currently available resources at time 0.3523
+    R 0 R 1 R 2 R 3 R 4 R 5 R 6 R 7 R 8 R 9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 
+TOT   6   7   3  10   2   3   1   8   1  10   4   7   1   1   7   1   3   1   7   2 
+OSS   6   6   3  10   2   3   1   8   1  10   4   7   1   1   7   1   3   1   7   2 
+P 0   0   1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 1   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 2   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+OSS: Resource requests at time 0.3523
+P0: R1=1
+OSS: Acknowledged process with PID 0 is making a request for R-1 at system time 0:3623
+OSS: Acknowledged process with PID 0 freeing resouces: R1=1 
+Master: Child 37408 exited code 0 at systm time 0:3623
+OSS: total time this dispatching was 67 nanoseconds at system time 0:3690
+OSS: Acknowledged process with PID 1 is making a request for R6 at system time 0:3790
+OSS: Running deadlock avoidance at system time 0:3790
+	Safe state after accepting request found
+	OSS granting R6=1 to P1 at time 0:3790
+OSS: total time this dispatching was 35 nanoseconds at system time 0:3825
+Master: Child 37406 exited code 0 at systm time 0:4325
+OSS: Acknowledged process with PID 1 is making a request for R6 at system time 0:4425
+	P1 added to wait queue, waiting on R6=1
+OSS: total time this dispatching was 29 nanoseconds at system time 0:4454
+OSS: Denied process with PID 1 waiting on R6=1 at system time 0:4454
+OSS: Acknowledged process with PID 1 is making a request for R6 at system time 0:4854
+OSS: Acknowledged process with PID 1 freed R6=1 at system time 0:4854
+OSS: total time this dispatching was 2 nanoseconds at system time 0:4856
+OSS: Acknowledged process with PID 1 is making a request for R4 at system time 0:5056
+OSS: Running deadlock avoidance at system time 0:5056
+	Safe state after accepting request found
+	OSS granting R4=1 to P1 at time 0:5056
+OSS: total time this dispatching was 22 nanoseconds at system time 0:5078
+OSS: Acknowledged process with PID 1 is making a request for R-1 at system time 0:5278
+OSS: Acknowledged process with PID 1 freeing resouces: R4=1 R6=1 
+OSS: total time this dispatching was 58 nanoseconds at system time 0:5336
+Master: Child 37407 exited code 0 at systm time 0:6436
+OSS: Generating process with PID 3 at system time 0:6436
+OSS: Generating process with PID 4 at system time 0:9636
+OSS: Acknowledged process with PID 3 is making a request for R2 at system time 0:10036
+OSS: Running deadlock avoidance at system time 0:10036
+	Safe state after accepting request found
+	OSS granting R2=2 to P3 at time 0:10036
+OSS: total time this dispatching was 11 nanoseconds at system time 0:10047
+OSS: Acknowledged process with PID 3 is making a request for R12 at system time 0:10247
+OSS: Running deadlock avoidance at system time 0:10247
+	Safe state after accepting request found
+	OSS granting R12=1 to P3 at time 0:10247
+OSS: total time this dispatching was 42 nanoseconds at system time 0:10289
+OSS: Acknowledged process with PID 3 is making a request for R10 at system time 0:10489
+OSS: Running deadlock avoidance at system time 0:10489
+	Safe state after accepting request found
+	OSS granting R10=1 to P3 at time 0:10489
+OSS: total time this dispatching was 29 nanoseconds at system time 0:10518
+OSS: Acknowledged process with PID 3 is making a request for R7 at system time 0:10718
+OSS: Running deadlock avoidance at system time 0:10718
+	Safe state after accepting request found
+	OSS granting R7=3 to P3 at time 0:10718
+OSS: total time this dispatching was 73 nanoseconds at system time 0:10791
+OSS: Acknowledged process with PID 3 is making a request for R12 at system time 0:10991
+OSS: Acknowledged process with PID 3 freed R12=1 at system time 0:10991
+OSS: total time this dispatching was 21 nanoseconds at system time 0:11012
+OSS: Acknowledged process with PID 3 is making a request for R12 at system time 0:11112
+OSS: Running deadlock avoidance at system time 0:11112
+	Safe state after accepting request found
+	OSS granting R12=1 to P3 at time 0:11112
+OSS: total time this dispatching was 19 nanoseconds at system time 0:11131
+OSS: Acknowledged process with PID 3 is making a request for R5 at system time 0:11331
+OSS: Running deadlock avoidance at system time 0:11331
+	Safe state after accepting request found
+	OSS granting R5=2 to P3 at time 0:11331
+OSS: total time this dispatching was 84 nanoseconds at system time 0:11415
+OSS: Acknowledged process with PID 3 is making a request for R2 at system time 0:11615
+OSS: Acknowledged process with PID 3 freed R2=2 at system time 0:11615
+OSS: total time this dispatching was 37 nanoseconds at system time 0:11652
+OSS: Acknowledged process with PID 3 is making a request for R16 at system time 0:11852
+OSS: Running deadlock avoidance at system time 0:11852
+	Safe state after accepting request found
+	OSS granting R16=1 to P3 at time 0:11852
+OSS: total time this dispatching was 98 nanoseconds at system time 0:11950
+OSS: Acknowledged process with PID 3 is making a request for R8 at system time 0:12250
+OSS: Running deadlock avoidance at system time 0:12250
+	Safe state after accepting request found
+	OSS granting R8=1 to P3 at time 0:12250
+OSS: total time this dispatching was 24 nanoseconds at system time 0:12274
+OSS: Acknowledged process with PID 3 is making a request for R3 at system time 0:12474
+OSS: Running deadlock avoidance at system time 0:12474
+	Safe state after accepting request found
+	OSS granting R3=5 to P3 at time 0:12474
+OSS: total time this dispatching was 15 nanoseconds at system time 0:12489
+OSS: Acknowledged process with PID 3 is making a request for R16 at system time 0:12689
+OSS: Running deadlock avoidance at system time 0:12689
+	Processes P4 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 70 nanoseconds at system time 0:12759
+OSS: Acknowledged process with PID 4 is making a request for R19 at system time 0:12859
+OSS: Running deadlock avoidance at system time 0:12859
+	Processes P4 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 13 nanoseconds at system time 0:12872
+OSS: Acknowledged process with PID 3 is making a request for R7 at system time 0:12972
+OSS: Running deadlock avoidance at system time 0:12972
+	Safe state after accepting request found
+	OSS granting R7=3 to P3 at time 0:12972
+OSS: total time this dispatching was 26 nanoseconds at system time 0:12998
+Master: Child 37410 exited code 0 at systm time 0:13098
+OSS: Generating process with PID 5 at system time 0:13098
+OSS: Acknowledged process with PID 3 is making a request for R2 at system time 0:13098
+OSS: Running deadlock avoidance at system time 0:13098
+	Safe state after accepting request found
+	OSS granting R2=2 to P3 at time 0:13098
+OSS: total time this dispatching was 56 nanoseconds at system time 0:13154
+Currently available resources at time 0.13154
+    R 0 R 1 R 2 R 3 R 4 R 5 R 6 R 7 R 8 R 9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 
+TOT   6   7   3  10   2   3   1   8   1  10   4   7   1   1   7   1   3   1   7   2 
+OSS   6   6   1   5   1   1   1   2   0  10   3   7   0   1   7   1   2   1   7   2 
+P 3   0   0   4   5   0   2   0   6   1   0   1   0   2   0   0   0   1   0   0   0 
+P 5   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+OSS: Resource requests at time 0.13154
+P3: R12=-2
+OSS: Acknowledged process with PID 3 is making a request for R12 at system time 0:13254
+OSS: Acknowledged process with PID 3 freed R12=2 at system time 0:13254
+OSS: total time this dispatching was 73 nanoseconds at system time 0:13327
+OSS: Acknowledged process with PID 3 is making a request for R15 at system time 0:13527
+OSS: Running deadlock avoidance at system time 0:13527
+	Safe state after accepting request found
+	OSS granting R15=1 to P3 at time 0:13527
+OSS: total time this dispatching was 62 nanoseconds at system time 0:13589
+OSS: Acknowledged process with PID 3 is making a request for R17 at system time 0:13789
+OSS: Running deadlock avoidance at system time 0:13789
+	Safe state after accepting request found
+	OSS granting R17=1 to P3 at time 0:13789
+OSS: total time this dispatching was 70 nanoseconds at system time 0:13859
+OSS: Acknowledged process with PID 3 is making a request for R15 at system time 0:14059
+	P3 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 96 nanoseconds at system time 0:14155
+OSS: Generating process with PID 6 at system time 0:17155
+OSS: Acknowledged process with PID 5 is making a request for R2 at system time 0:17555
+	P5 added to wait queue, waiting on R2=2
+OSS: total time this dispatching was 25 nanoseconds at system time 0:17580
+OSS: Generating process with PID 7 at system time 0:19480
+OSS: Generating process with PID 8 at system time 0:20880
+Master: Child 37412 exited code 0 at systm time 0:22480
+OSS: Generating process with PID 9 at system time 0:22480
+OSS: Acknowledged process with PID 7 is making a request for R1 at system time 0:22480
+OSS: Running deadlock avoidance at system time 0:22480
+	Processes P7 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 13 nanoseconds at system time 0:22493
+OSS: Acknowledged process with PID 7 is making a request for R0 at system time 0:22793
+OSS: Running deadlock avoidance at system time 0:22793
+	Processes P7 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 57 nanoseconds at system time 0:22850
+Master: Child 37414 exited code 0 at systm time 0:23350
+Master: Child 37413 exited code 0 at systm time 0:23550
+OSS: Generating process with PID 10 at system time 0:24250
+OSS: Acknowledged process with PID 9 is making a request for R7 at system time 0:24550
+OSS: Running deadlock avoidance at system time 0:24550
+	Processes P9 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 82 nanoseconds at system time 0:24632
+OSS: Acknowledged process with PID 9 is making a request for R8 at system time 0:24832
+	P9 added to wait queue, waiting on R8=1
+OSS: total time this dispatching was 45 nanoseconds at system time 0:24877
+OSS: Generating process with PID 11 at system time 0:28177
+OSS: Acknowledged process with PID 10 is making a request for R14 at system time 0:28577
+OSS: Running deadlock avoidance at system time 0:28577
+	Processes P10 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 34 nanoseconds at system time 0:28611
+OSS: Generating process with PID 12 at system time 0:31611
+OSS: Acknowledged process with PID 10 is making a request for R11 at system time 0:31611
+OSS: Running deadlock avoidance at system time 0:31611
+	Processes P10 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 50 nanoseconds at system time 0:31661
+OSS: Acknowledged process with PID 11 is making a request for R2 at system time 0:31861
+OSS: Running deadlock avoidance at system time 0:31861
+	Processes P11 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 87 nanoseconds at system time 0:31948
+Master: Child 37416 exited code 0 at systm time 0:32648
+Master: Child 37417 exited code 0 at systm time 0:32648
+OSS: Generating process with PID 13 at system time 0:35748
+OSS: Generating process with PID 14 at system time 0:38048
+OSS: Acknowledged process with PID 12 is making a request for R9 at system time 0:38048
+OSS: Running deadlock avoidance at system time 0:38048
+	Processes P12 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 84 nanoseconds at system time 0:38132
+OSS: Acknowledged process with PID 13 is making a request for R15 at system time 0:38432
+	P13 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 3 nanoseconds at system time 0:38435
+Master: Child 37418 exited code 0 at systm time 0:38935
+OSS: Generating process with PID 15 at system time 0:38935
+OSS: Generating process with PID 16 at system time 0:41735
+OSS: Acknowledged process with PID 14 is making a request for R16 at system time 0:41735
+OSS: Running deadlock avoidance at system time 0:41735
+	Processes P14 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 60 nanoseconds at system time 0:41795
+Master: Child 37421 exited code 0 at systm time 0:46695
+OSS: Generating process with PID 17 at system time 0:46695
+OSS: Acknowledged process with PID 14 is making a request for R4 at system time 0:46695
+OSS: Running deadlock avoidance at system time 0:46695
+	Processes P14 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 39 nanoseconds at system time 0:46734
+OSS: Acknowledged process with PID 14 is making a request for R19 at system time 0:46934
+OSS: Running deadlock avoidance at system time 0:46934
+	Processes P14 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 12 nanoseconds at system time 0:46946
+OSS: Generating process with PID 18 at system time 0:50146
+OSS: Acknowledged process with PID 14 is making a request for R18 at system time 0:50146
+OSS: Running deadlock avoidance at system time 0:50146
+	Processes P14 P16 P17 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 94 nanoseconds at system time 0:50240
+OSS: Acknowledged process with PID 17 is making a request for R19 at system time 0:50340
+OSS: Running deadlock avoidance at system time 0:50340
+	Processes P16 P17 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 39 nanoseconds at system time 0:50379
+OSS: Acknowledged process with PID 16 is making a request for R11 at system time 0:50479
+OSS: Running deadlock avoidance at system time 0:50479
+	Processes P16 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 95 nanoseconds at system time 0:50574
+Master: Child 37423 exited code 0 at systm time 0:53774
+OSS: Generating process with PID 19 at system time 0:53774
+OSS: Acknowledged process with PID 14 is making a request for R12 at system time 0:53774
+OSS: Running deadlock avoidance at system time 0:53774
+	Processes P14 P16 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 78 nanoseconds at system time 0:53852
+OSS: Acknowledged process with PID 16 is making a request for R18 at system time 0:53952
+OSS: Running deadlock avoidance at system time 0:53952
+	Processes P16 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 67 nanoseconds at system time 0:54019
+OSS: Acknowledged process with PID 14 is making a request for R3 at system time 0:54119
+	P14 added to wait queue, waiting on R3=6
+OSS: total time this dispatching was 1 nanoseconds at system time 0:54120
+OSS: Generating process with PID 20 at system time 0:55220
+OSS: Acknowledged process with PID 18 is making a request for R4 at system time 0:55220
+OSS: Running deadlock avoidance at system time 0:55220
+	Processes P16 P18 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 17 nanoseconds at system time 0:55237
+OSS: Acknowledged process with PID 16 is making a request for R15 at system time 0:55337
+	P16 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 92 nanoseconds at system time 0:55429
+OSS: Generating process with PID 21 at system time 0:58129
+OSS: Acknowledged process with PID 18 is making a request for R12 at system time 0:58129
+OSS: Running deadlock avoidance at system time 0:58129
+	Processes P18 P19 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 1 nanoseconds at system time 0:58130
+Currently available resources at time 0.58130
+    R 0 R 1 R 2 R 3 R 4 R 5 R 6 R 7 R 8 R 9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 
+TOT   6   7   3  10   2   3   1   8   1  10   4   7   1   1   7   1   3   1   7   2 
+OSS   6   6   1   5   1   1   1   2   0  10   3   7   2   1   7   0   2   0   7   2 
+P 3   0   0   4   5   0   2   0   6   1   0   1   0   2   0   0   1   1   1   0   0 
+P13   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 5   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P14   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 9   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P18   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P20   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P19   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P21   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+OSS: Resource requests at time 0.58130
+P3: R15=1
+P13: R15=1
+P5: R2=2
+P14: R3=6
+P16: R15=1
+P9: R8=1
+P18: R12=1
+P19: R6=1
+OSS: Acknowledged process with PID 19 is making a request for R6 at system time 0:58230
+OSS: Running deadlock avoidance at system time 0:58230
+	Processes P19 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 80 nanoseconds at system time 0:58310
+Master: Child 37426 exited code 0 at systm time 0:58910
+OSS: Generating process with PID 22 at system time 0:58910
+OSS: Acknowledged process with PID 18 is making a request for R15 at system time 0:58910
+	P18 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 65 nanoseconds at system time 0:58975
+OSS: Acknowledged process with PID 19 is making a request for R8 at system time 0:59075
+	P19 added to wait queue, waiting on R8=1
+OSS: total time this dispatching was 89 nanoseconds at system time 0:59164
+OSS: Acknowledged process with PID 21 is making a request for R18 at system time 0:59264
+OSS: Running deadlock avoidance at system time 0:59264
+	Processes P21 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 44 nanoseconds at system time 0:59308
+OSS: Acknowledged process with PID 21 is making a request for R15 at system time 0:59508
+	P21 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 19 nanoseconds at system time 0:59527
+OSS: Generating process with PID 23 at system time 0:63427
+OSS: Acknowledged process with PID 22 is making a request for R12 at system time 0:64527
+OSS: Running deadlock avoidance at system time 0:64527
+	Processes P22 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 31 nanoseconds at system time 0:64558
+Master: Child 37428 exited code 0 at systm time 0:66058
+OSS: Generating process with PID 24 at system time 0:68158
+OSS: Acknowledged process with PID 23 is making a request for R0 at system time 0:68458
+OSS: Running deadlock avoidance at system time 0:68458
+	Processes P23 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 71 nanoseconds at system time 0:68529
+OSS: Acknowledged process with PID 23 is making a request for R14 at system time 0:68829
+OSS: Running deadlock avoidance at system time 0:68829
+	Processes P23 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 81 nanoseconds at system time 0:68910
+OSS: Acknowledged process with PID 23 is making a request for R9 at system time 0:69110
+OSS: Running deadlock avoidance at system time 0:69110
+	Processes P23 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 75 nanoseconds at system time 0:69185
+Master: Child 37429 exited code 0 at systm time 0:70685
+OSS: Generating process with PID 25 at system time 0:71285
+OSS: Acknowledged process with PID 24 is making a request for R15 at system time 0:71585
+	P24 added to wait queue, waiting on R15=1
+OSS: total time this dispatching was 67 nanoseconds at system time 0:71652
+OSS: Generating process with PID 26 at system time 0:75252
+OSS: Acknowledged process with PID 25 is making a request for R9 at system time 0:75752
+OSS: Running deadlock avoidance at system time 0:75752
+	Processes P25 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 53 nanoseconds at system time 0:75805
+Master: Child 37431 exited code 0 at systm time 0:77805
+OSS: Generating process with PID 27 at system time 0:79805
+OSS: Acknowledged process with PID 26 is making a request for R10 at system time 0:80205
+OSS: Running deadlock avoidance at system time 0:80205
+	Processes P26 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 6 nanoseconds at system time 0:80211
+Master: Child 37432 exited code 0 at systm time 0:81711
+OSS: Generating process with PID 28 at system time 0:81811
+OSS: Generating process with PID 29 at system time 0:83111
+OSS: Acknowledged process with PID 27 is making a request for R12 at system time 0:83111
+OSS: Running deadlock avoidance at system time 0:83111
+	Processes P27 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 71 nanoseconds at system time 0:83182
+OSS: Generating process with PID 30 at system time 0:84682
+OSS: Acknowledged process with PID 27 is making a request for R11 at system time 0:84682
+OSS: Running deadlock avoidance at system time 0:84682
+	Processes P27 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 3 nanoseconds at system time 0:84685
+OSS: Acknowledged process with PID 28 is making a request for R9 at system time 0:84985
+OSS: Running deadlock avoidance at system time 0:84985
+	Processes P27 P28 P29 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 19 nanoseconds at system time 0:85004
+OSS: Acknowledged process with PID 27 is making a request for R8 at system time 0:85104
+	P27 added to wait queue, waiting on R8=1
+OSS: total time this dispatching was 70 nanoseconds at system time 0:85174
+OSS: Acknowledged process with PID 29 is making a request for R1 at system time 0:85274
+OSS: Running deadlock avoidance at system time 0:85274
+	Processes P29 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 68 nanoseconds at system time 0:85342
+Master: Child 37434 exited code 0 at systm time 0:88542
+OSS: Generating process with PID 31 at system time 0:88542
+OSS: Acknowledged process with PID 29 is making a request for R1 at system time 0:88542
+OSS: Running deadlock avoidance at system time 0:88542
+	Processes P29 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 40 nanoseconds at system time 0:88582
+OSS: Acknowledged process with PID 30 is making a request for R14 at system time 0:88882
+OSS: Running deadlock avoidance at system time 0:88882
+	Processes P30 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 49 nanoseconds at system time 0:88931
+Master: Child 37436 exited code 0 at systm time 0:90331
+OSS: Generating process with PID 32 at system time 0:90331
+OSS: Acknowledged process with PID 31 is making a request for R9 at system time 0:90731
+OSS: Running deadlock avoidance at system time 0:90731
+	Processes P31 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 18 nanoseconds at system time 0:90749
+OSS: Acknowledged process with PID 31 is making a request for R5 at system time 0:90949
+OSS: Running deadlock avoidance at system time 0:90949
+	Processes P31 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 45 nanoseconds at system time 0:90994
+OSS: Generating process with PID 33 at system time 0:91094
+OSS: Acknowledged process with PID 31 is making a request for R8 at system time 0:91094
+	P31 added to wait queue, waiting on R8=1
+OSS: total time this dispatching was 21 nanoseconds at system time 0:91115
+OSS: Acknowledged process with PID 32 is making a request for R9 at system time 0:91315
+OSS: Running deadlock avoidance at system time 0:91315
+	Processes P32 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 55 nanoseconds at system time 0:91370
+OSS: Acknowledged process with PID 32 is making a request for R14 at system time 0:91570
+OSS: Running deadlock avoidance at system time 0:91570
+	Processes P32 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 79 nanoseconds at system time 0:91649
+OSS: Acknowledged process with PID 32 is making a request for R7 at system time 0:91849
+	P32 added to wait queue, waiting on R7=5
+OSS: total time this dispatching was 88 nanoseconds at system time 0:91937
+Master: Child 37435 exited code 0 at systm time 0:94637
+OSS: Generating process with PID 34 at system time 0:94637
+OSS: Acknowledged process with PID 33 is making a request for R4 at system time 0:94837
+OSS: Running deadlock avoidance at system time 0:94837
+	Processes P33 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 41 nanoseconds at system time 0:94878
+Master: Child 37439 exited code 0 at systm time 0:96978
+OSS: Generating process with PID 35 at system time 0:97878
+Master: Child 37440 exited code 0 at systm time 0:98078
+OSS: Generating process with PID 36 at system time 0:98078
+OSS: Generating process with PID 37 at system time 0:100178
+OSS: Generating process with PID 38 at system time 0:100378
+OSS: Acknowledged process with PID 35 is making a request for R3 at system time 0:100378
+OSS: Running deadlock avoidance at system time 0:100378
+	Processes P35 P36 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 56 nanoseconds at system time 0:100434
+Currently available resources at time 0.100434
+    R 0 R 1 R 2 R 3 R 4 R 5 R 6 R 7 R 8 R 9 R10 R11 R12 R13 R14 R15 R16 R17 R18 R19 
+TOT   6   7   3  10   2   3   1   8   1  10   4   7   1   1   7   1   3   1   7   2 
+OSS   6   6   1   5   1   1   1   2   0  10   3   7   2   1   7   0   2   0   7   2 
+P 3   0   0   4   5   0   2   0   6   1   0   1   0   2   0   0   1   1   1   0   0 
+P13   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 5   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P14   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P16   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P 9   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P18   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P27   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P19   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P21   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P24   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P32   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P35   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P36   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P31   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P37   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+P38   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
+OSS: Resource requests at time 0.100434
+P3: R15=1
+P13: R15=1
+P5: R2=2
+P14: R3=6
+P16: R15=1
+P9: R8=1
+P18: R15=1
+P27: R8=1
+P19: R8=1
+P21: R15=1
+P24: R15=1
+P32: R7=5
+P35: R3=3
+P36: R0=4
+P31: R8=1
+P37: R9=2
+OSS: Acknowledged process with PID 36 is making a request for R0 at system time 0:100534
+OSS: Running deadlock avoidance at system time 0:100534
+	Processes P36 P37 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 43 nanoseconds at system time 0:100577
+OSS: Acknowledged process with PID 37 is making a request for R9 at system time 0:100677
+OSS: Running deadlock avoidance at system time 0:100677
+	Processes P35 P36 P37 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 91 nanoseconds at system time 0:100768
+OSS: Acknowledged process with PID 36 is making a request for R5 at system time 0:100868
+	P36 added to wait queue, waiting on R5=2
+OSS: total time this dispatching was 27 nanoseconds at system time 0:100895
+OSS: Acknowledged process with PID 35 is making a request for R2 at system time 0:100995
+	P35 added to wait queue, waiting on R2=2
+OSS: total time this dispatching was 65 nanoseconds at system time 0:101060
+OSS: Acknowledged process with PID 37 is making a request for R1 at system time 0:101160
+OSS: Running deadlock avoidance at system time 0:101160
+	Processes P37 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 59 nanoseconds at system time 0:101219
+OSS: Acknowledged process with PID 37 is making a request for R5 at system time 0:101419
+OSS: Running deadlock avoidance at system time 0:101419
+	Processes P37 could deadlock in this scenario.
+Unsafe state after granting user; request not granted
+OSS: total time this dispatching was 36 nanoseconds at system time 0:101455
+OSS: Acknowledged process with PID 37 is making a request for R7 at system time 0:101655
+	P37 added to wait queue, waiting on R7=6
+OSS: total time this dispatching was 32 nanoseconds at system time 0:101687
+OSS: Generating process with PID 39 at system time 0:102387
+Time taken: 0:103887
+Total accepts: 65
+Total returns: 4
+Total return all: 2
+Total denied(deadlocks): 44
+Grants / process: 1.6
+Master: Child 37411 exited code 0 at systm time 1:103887
+Master: Child 37415 exited code 0 at systm time 1:103887
+Master: Child 37420 exited code 0 at systm time 1:103887
+Master: Child 37422 exited code 0 at systm time 1:103887
+Master: Child 37427 exited code 0 at systm time 1:103887
+Master: Child 37430 exited code 0 at systm time 1:103887
+Master: Child 37433 exited code 0 at systm time 1:103887
+Master: Child 37438 exited code 0 at systm time 1:103887
+Master: Child 37441 exited code 0 at systm time 2:103887
+Master: Child 37437 exited code 0 at systm time 4:103887
+Master: Child 37442 exited code 0 at systm time 7:103887
+Master: Child 37409 exited code 0 at systm time 14:103887
+Master: Child 37419 exited code 0 at systm time 14:103887
+Master: Child 37425 exited code 0 at systm time 14:103887
+Master: Child 37443 exited code 0 at systm time 15:103887
+Master: Child 37424 exited code 0 at systm time 16:103887
+Master: Child 37445 exited code 0 at systm time 17:103887
+Master: Child 37444 exited code 0 at systm time 65:103887
+OSS: All children exited
+Master:  Done (exit 0)at system time 65:103887
