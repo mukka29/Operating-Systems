@@ -83,8 +83,8 @@ Navigate to the directory "mukka.5/Assignment5" on hoare and issue the below com
 
 Note: The log.txt file (generated with verbose mode, -v) is attached in the files section as a way to show how it exactly prints the output.
 
-## data.h and queue.h Files
-* These files contains the constants used in the project.
+## data.h, res.h and queue.h Files
+* These files contains the constants, variables and functions used in the other files .
 
 ## clean the executables:
 <ul> make clean </ul>
