@@ -1,3 +1,4 @@
+//header files
 #include <string.h>
 #include <sys/shm.h>
 #include <sys/msg.h>
@@ -14,12 +15,12 @@
 //100 ms maximum sleep time between user actions - [0; B]
 #define B_MAX 100
 
-static int mid=-1, qid = -1, sid = -1;	//memory and msg queue identifiers
-static struct data *data = NULL;	//shared memory pointer
+static int mid=-1, qid = -1, sid = -1;	//identifiers for memory and message queue
+static struct data *data = NULL; //creating pointer for shared memory
 static struct user_pcb * user = NULL;
 static unsigned int user_id = -1;
 
-//Attach the shared memory pointer
+//Attaching the shared memory pointer
 static int attach_data(const int argc, char * const argv[]){
 
 	key_t k1 = ftok(PATH_KEY, MEM_KEY);
@@ -30,28 +31,28 @@ static int attach_data(const int argc, char * const argv[]){
 		return -1;
 	}
 
-	//get shared memory id
+	//to get shared memory id
 	mid = shmget(k1, 0, 0);
   if(mid == -1){
   	perror("shmget");
   	return -1;
   }
 
-	//get message queue ud
+	//to get message queue ud
 	qid = msgget(k2, 0);
   if(qid == -1){
   	perror("msgget");
   	return -1;
   }
 
-	//get shared memory id
+	//to get shared memory id
 	sid = semget(k3, 0, 0);
   if(sid == -1){
   	perror("semget");
   	return -1;
   }
 
-	//attach to the shared memory
+	//attaching to the shared memory
 	data = (struct data *) shmat(mid, NULL, 0);
 	if(data == NULL){
 		perror("shmat");
@@ -77,7 +78,7 @@ static int critical_lock(){
 	return 0;
 }
 
-//Unlock critical section
+//Unlocking the critical section
 static int critical_unlock(){
 	struct sembuf sop;
 	sop.sem_num = 0;
@@ -96,12 +97,12 @@ static int execute(){
 	static int max_prob = 100;
 	int decision = 0, r = (rand() % max_prob);
 
-	//decide between request(0), relese(1) and termniate(2)
+	//deciding between request(0), relese(1) and termniate(2)
 	if(r >= TERMINATE_PROBABILITY){
-		//decide between request(0), relese(1)
+		//deciding between request(0), relese(1)
 		decision = (r < RELEASE_PROBABILITY) ? 0 : 1;
 	}else{
-		//only on option - terminate
+		//now only on option - terminate
 		decision = 2;
 	}
 
@@ -128,7 +129,7 @@ static int execute(){
 
 	if(r >= 0){
 
-		//setup the request
+		//setting up the request
 		critical_lock();
 		user->request.id = r;
 		if(decision == 0){
@@ -139,7 +140,7 @@ static int execute(){
 		user->request.state = WAITING;
 		critical_unlock();
 
-		//send our request
+		//sending our request
 		mbuf.mtype = getppid();
 		mbuf.user_id = user_id;
 		if(msgsnd(qid, &mbuf, MSGBUF_SIZE, 0) == -1){
@@ -147,14 +148,14 @@ static int execute(){
 			return -1;
 		}
 
-		//wait for reply from oss
+		//waiting for reply from oss
 		if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, getpid(), 0) == -1){
 			perror("msgrcv");
 			return -1;
 		}
 
 		if(mbuf.user_id == -1){
-			rv = -1;	//stop master loop
+			rv = -1;	//stop the master loop
 		}
 	}
 	return rv;
@@ -170,11 +171,11 @@ int main(const int argc, char * const argv[]){
 	res_alloc_total(user->r, data->R);
 
 	struct timeval inc, bend;
-	//determine how long we will run
+	//determining how long we will run
 	inc.tv_sec = 0;
 	inc.tv_usec = rand() % B_MAX;	//generate [0; B] period
 
-	//copy shared timer to end and sub with increment
+	//copying shared timer to end and sub with increment
 	critical_lock();
 	timeradd(&inc, &data->timer, &bend);
 	critical_unlock();
@@ -186,10 +187,10 @@ int main(const int argc, char * const argv[]){
 			break;
 		}
 
-		//if its time to request/release/terminate
+		//if its the time to request/release/terminate
 		if(timercmp(&data->timer, &bend, >)){
 
-			//regenerate bend
+			//regenerating bend
 			inc.tv_usec = rand() % B_MAX;	//generate [0; B] period
 			timeradd(&inc, &data->timer, &bend);
 
@@ -207,18 +208,18 @@ int main(const int argc, char * const argv[]){
 		}
 	}
 
-	//release all resources
+	//releasing all resources
 	if(res_rand_release(user->r) != -1){
 		struct msgbuf mbuf;
 
 		critical_lock();
-		//setup the request
+		//setting up the request
 		user->request.id = -1;
 		user->request.val = 0;
 		user->request.state = WAITING;
 		critical_unlock();
 
-		//send our request
+		//sending our request
 		mbuf.mtype = getppid();
 		mbuf.user_id = user_id;
 		if(msgsnd(qid, &mbuf, MSGBUF_SIZE, 0) == -1){
@@ -226,7 +227,7 @@ int main(const int argc, char * const argv[]){
 			return -1;
 		}
 
-		//wait for reply from oss
+		//waiting for reply from oss
 		if(msgrcv(qid, (void*)&mbuf, MSGBUF_SIZE, getpid(), 0) == -1){
 			//perror("msgrcv");
 			return -1;
