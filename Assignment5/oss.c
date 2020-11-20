@@ -434,16 +434,16 @@ static int deadlock_check(void){
 
 	int i,j, avail[RCOUNT], finished[RUNNING_MAX];
 
-	/* nobody finished */
+	// nobody is finished
 	for(i=0; i < RUNNING_MAX; i++){
 		finished[i] = 0;
   }
 
-	/* available resources */
+	// all the available resources
 	for(j=0; j < RCOUNT; j++)
 		avail[j] = data->R[j].available;
 
-  //lock semaphore to block nw requests
+  //locking semaphore to block new requests
   critical_lock();
 
   i=0;
@@ -461,10 +461,10 @@ static int deadlock_check(void){
         continue;
       }
 
-      //check if the claim left, can be satisfied or not
+      //checking if the claim left, whether it can be satisfied or not
       int claim_ok = 1;
       for(j=0; j < RCOUNT; j++){
-        //if availabel is less than the claim
+        //if available is less than the claim
     		if(data->R[j].available < (usr->r[j].total - usr->r[j].available)){
           claim_ok = 0; //then the claim is not satisfied
         }
@@ -486,7 +486,7 @@ static int deadlock_check(void){
 	}
   critical_unlock();
 
-  // return index of first user in deadlock, if any
+  // returning index of first user in deadlock, if any
 	return all_finished(finished);
 }
 
@@ -512,13 +512,13 @@ static int schedule_dispatch(){
   printf("OSS: Acknowledged process with PID %u is making a request for R%d at system time %lu:%li\n",
     usr->id, usr->request.id, data->timer.tv_sec, data->timer.tv_usec);
 
-  //process the request
+  //processing the request
   int reply = 0;
   if(usr->request.val < 0){//incase if user wants to release
 
     usr->request.state = ACCEPTED;  //the request is accepted
     reply = 1;
-    //and return resource to system
+    //and resource is returned to the system
     data->R[usr->request.id].available += -1*usr->request.val;
 
     printf("OSS: Acknowledged process with PID %u freed R%d=%d at system time %lu:%li\n",
@@ -531,7 +531,7 @@ static int schedule_dispatch(){
     usr->request.state = ACCEPTED;  //request is accepted
     reply = 1;
 
-    //returning all user resources to system
+    //returning all user resources to the system
     printf("OSS: Acknowledged process with PID %u freeing resouces: ", usr->id);
     int i;
     for(i=0; i < RCOUNT; i++){
@@ -542,42 +542,42 @@ static int schedule_dispatch(){
     printf("\n");
     rstat.num_ret_all++;
 
-  //user wants to request a resource
+  //when user wants to request a resource
   }else if(data->R[usr->request.id].available >= usr->request.val){ //if we have enough resource
 
     printf("OSS: Running deadlock avoidance at system time %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
     rstat.num_lines++;
 
-    //check if we are in deadlock, after request
+    //check if we are in deadlock, after the request
     if(deadlock_check()){
 
       printf("Unsafe state after granting user; request not granted\n");
       rstat.num_lines++;
-  		//deny the request to avoid deadlock
+  //denying the request to avoid the deadlock
       usr->request.state = DENIED;
       reply = 1;
 
       rstat.num_deny++;
 
-    }else{  //request doesn't lead to deadlock
+    }else{  //if the request doesn't lead to deadlock
       printf("\tSafe state after accepting request found\n");
       printf("\tOSS granting R%d=%d to P%d at time %lu:%li\n", usr->request.id, usr->request.val, usr->id,
         data->timer.tv_sec, data->timer.tv_usec);
       rstat.num_lines += 2;
 
-      //remove requested amount from system resources
+      //removing the requested amount from system resources
       data->R[usr->request.id].available -= usr->request.val;
       usr->r[usr->request.id].available  += usr->request.val;
 
       usr->request.state = ACCEPTED;
-      reply = 1;  //unblock user
+      reply = 1;  //unblock the user
     }
 
-  }else{  //we don't have the resource
+  }else{  //if we don't have the resource
 
     reply = 0;  //don't unblock user
     usr->request.state = BLOCKED;
-    if(q_enq(&blocked, mbuf.user_id) == 0){  //user will wait in blocked queue
+    if(q_enq(&blocked, mbuf.user_id) == 0){  //user will wait in the blocked queue
       printf("\tP%d added to wait queue, waiting on R%d=%d\n", usr->id, usr->request.id, usr->request.val);
     }else{
       printf("\tP%d wans't added to wait queue, queue is full\n", usr->id);
@@ -590,7 +590,7 @@ static int schedule_dispatch(){
 
     rstat.num_req++;
 
-    mbuf.mtype = usr->pid;  //set its pit as type
+    mbuf.mtype = usr->pid;  //set its pid as type
     mbuf.user_id = usr->id;
     if(msgsnd(qid, (void*)&mbuf, MSGBUF_SIZE, 0) == -1){
   		perror("msgrcv");
@@ -598,7 +598,7 @@ static int schedule_dispatch(){
   	}
   }
 
-  //calculate dispatch time
+  //calculating the dispatch time
   tv.tv_sec = 0; tv.tv_usec = rand() % 100;
   timerinc(&data->timer, &tv);
   printf("OSS: total time this dispatching was %li nanoseconds at system time %lu:%li\n", tv.tv_usec, data->timer.tv_sec, data->timer.tv_usec);
@@ -652,7 +652,7 @@ static void print_resmap(){
 	rstat.num_lines++;
 
 
-	//show what the users have
+	//showing what the users have
 	for(i=0; i < RUNNING_MAX; i++){
     struct user_pcb * usr = &data->users[i];
 		if(usr->pid > 0){
@@ -680,11 +680,11 @@ int main(const int argc, char * const argv[]){
       clean_exit(EXIT_FAILURE);
   }
 
-  //our clock step of 100 ns
+  //this is the clock step of 100 ns
   timestep.tv_sec = 0;
   timestep.tv_usec = 100;
 
-  //ignore signals to avoid interrupts in msgrcv
+  //ignoring the signals to avoid interrupts in msgrcv
   signal(SIGINT,  sig_handler);
   signal(SIGTERM, sig_handler);
   signal(SIGCHLD, sig_handler);
@@ -694,23 +694,23 @@ int main(const int argc, char * const argv[]){
 
   bzero(&rstat, sizeof(struct rstat));
 
-  q_init(&blocked, started.max);  //initialize the queue
+  q_init(&blocked, started.max);  //initializing the queue
   //allocate and setup resource descriptors
   res_alloc(data->R);
 
 	while(loop_flag){
 
-    //clock moves forward
+   //clock keeps on moving forward
     timerinc(&data->timer, &timestep);
     if(timercmp(&data->timer, &timer_fork, >=) != 0){
 
       if(started.val < started.max){
         spawn_user();
-      }else{  //we have generated all of the children
+      }else{  //if we have generated all of the children at this stage
         break;
       }
 
-      //set next fork time
+      //setting the next fork time
       timer_fork.tv_sec  = data->timer.tv_sec + (rand() % maxTimeBetweenNewProcsSecs);
       timer_fork.tv_usec = data->timer.tv_usec + (rand() % maxTimeBetweenNewProcsNS);
     }
@@ -724,7 +724,11 @@ int main(const int argc, char * const argv[]){
       fflush(stdout);
     }
 	}
-
+/*
+printing each of the values of total accepts, total returns, total return all, total denied and grants
+total_return is incremented , when user returns one resource
+total_return_all is when user releases all resources, at the end.
+*/
   printf("Time taken: %lu:%li\n", data->timer.tv_sec, data->timer.tv_usec);
 
   printf("Total accepts: %d\n", rstat.num_req);
