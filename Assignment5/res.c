@@ -1,5 +1,7 @@
+//header files
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "res.h"
 
 void res_alloc(struct resource R[RCOUNT]){
@@ -10,7 +12,7 @@ void res_alloc(struct resource R[RCOUNT]){
   s = RCOUNT / (100 / s);
   printf("OSS: %d/%d resources will be shared\n", s, RCOUNT);
 
-  //choose which resources will be shared randomly
+  //choosing which resources will be shared randomly
   while(s > 0){
     const int i = rand() % RCOUNT;
     if(R[i].is_shared == 0){
@@ -19,7 +21,7 @@ void res_alloc(struct resource R[RCOUNT]){
     }
   }
 
-  //set resource values
+  //seting the resource values
   for(i=0; i < RCOUNT; i++){
     if(R[i].is_shared == 0){
       R[i].total = 1 + (rand() % R_MAX);
