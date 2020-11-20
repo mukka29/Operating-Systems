@@ -1,9 +1,9 @@
-//count of resources
+//the count of resources
 #define RCOUNT	20
-//maximum value of a resource
+//the maximum value of a resource
 #define R_MAX 10
 
-//states a request can be in
+//this states a request can be in
 enum request_state { ACCEPTED=0, BLOCKED, WAITING, DENIED};
 
 struct request {
