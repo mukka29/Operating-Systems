@@ -1,9 +1,10 @@
+//header files
 #include <sys/time.h>
 #include "res.h"
 
 #define RUNNING_MAX 18
 
-//Constants for our program
+//Constants for this program
 #define PATH_KEY "/"
 #define MSG_KEY 1111
 #define MEM_KEY 2222
@@ -21,21 +22,21 @@ struct user_pcb {
 };
 
 struct data {
-	struct timeval timer;	//time
+	struct timeval timer; //time
 	struct user_pcb users[RUNNING_MAX];
 
-	struct resource R[RCOUNT];	/* resource descriptors */
+	struct resource R[RCOUNT]; // the resource descriptors
 };
 
-//Probability in percent, for a user process to terminate
+//for a user process to terminate, this is the Probability in percent
 #define TERMINATE_PROBABILITY 15
 #define RELEASE_PROBABILITY 30
 
 //Message queue buffer
 struct msgbuf {
-	long mtype;					//the type of message
-	int user_id;						//who is sending the message. Needed by master, to send reply
+	long mtype; //the type of message
+	int user_id; //who is sending the message. Needed by master, to send reply
 };
 
-//how big is our message ( without the mtype)
+//showing how big is the message ( without the mtype)
 #define MSGBUF_SIZE (sizeof(int) + sizeof(enum states))
