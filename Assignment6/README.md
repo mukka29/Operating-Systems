@@ -72,7 +72,7 @@ Navigate to the directory "mukka.6/Assignment6" on hoare and issue the below com
 <ul> OR </ul>
 <ul> "$ ./oss -v" (Verbose on)</ul>
 
-*     With the verbose mode, it gives statistics related to Frame Number, whether the frame is occupied or not, Dirty Bit and Time Stamp.
+* With the verbose mode, it gives statistics related to Frame Number, whether the frame is occupied or not, Dirty Bit and Time Stamp.
  
 * After this program execution, two executable files are generated - namely "oss" and "user", along with the log file named "log.txt". This log file contains the output in the required format.
 
