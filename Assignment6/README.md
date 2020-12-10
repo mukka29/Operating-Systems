@@ -62,18 +62,19 @@ Navigate to the directory "mukka.6/Assignment6" on hoare and issue the below com
 * Compiling with make 
 <ul>$ make</ul>
 <ul>OR</ul>
+
 * <ul>$ gcc -Werror -ggdb -Wall -c queue.c </ul>
-  <ul>$ gcc -Werror -ggdb -Wall -c res.c </ul>
-  <ul>$ gcc -Werror -ggdb -Wall oss.c queue.o res.o -o oss </ul>
-  <ul>$ gcc -Werror -ggdb -Wall user.c res.o -o user </ul>
+  <ul>$ gcc -Werror -ggdb -Wall oss.c queue.o -o oss -lm </ul>
+  <ul>$ gcc -Werror -ggdb -Wall user.c -o user -lm </ul>
 
 ## Execution: 
 <ul> "$ ./oss" </ul>
 <ul> OR </ul>
 <ul> "$ ./oss -v" (Verbose on)</ul>
-* With the verbose mode, it gives statistics
+
+*     With the verbose mode, it gives statistics related to Frame Number, whether the frame is occupied or not, Dirty Bit and Time Stamp.
  
-* After this program execution, two executable files are generated - namely "oss" and "user", along with the log file. This log file contains the output in the required format.
+* After this program execution, two executable files are generated - namely "oss" and "user", along with the log file named "log.txt". This log file contains the output in the required format.
 
 ## Checking the result:
 * Once the program is ececuted and ran, required Executable files are generated. Along with them, above mentioned log file also get generated. 
@@ -81,9 +82,9 @@ Navigate to the directory "mukka.6/Assignment6" on hoare and issue the below com
 * this command shows all the files present in the directory after the project is executed.
 * '$ cat log.txt' command is used to view the contents of log file
 
-Note: The log.txt file (generated with verbose mode, -v) is attached in the files section as a way to show how it exactly prints the output.
+Note: The log.txt file (generated with verbose mode, -v) is submitted along with the main project files, as a way to show how it exactly prints the output. In case if any error occurs when the program is ran, please clear the log file which is already present and then use the command "make" to execute and "./oss or ./oss -v" to run the project.
 
-## data.h, res.h and queue.h Files
+## data.h and queue.h Files
 * These files contains the constants, variables and functions used in the other files .
 
 ## clean the executables:
